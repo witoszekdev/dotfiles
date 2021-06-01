@@ -1,0 +1,11 @@
+alias ni="npm install"
+alias nid="npm install -D"
+alias nr="npm run"
+alias zshconfig="code ~/.zshrc"
+
+# lsd shortcuts
+# alias ls='lsd'
+alias l='ls -l'
+alias la='ls -a'
+alias lla='ls -la'
+alias lt='ls --tree'
