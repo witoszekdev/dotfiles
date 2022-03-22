@@ -21,9 +21,9 @@ brew install moreutils
 # Install GNU `find`, `locate`, `updatedb`, and `xargs`, `g`-prefixed.
 brew install findutils
 # Install GNU `sed`, overwriting the built-in `sed`.
-brew install gnu-sed --with-default-names
+brew install gnu-sed
 # Install `wget` with IRI support.
-brew install wget --with-iri
+brew install wget
 # Install zsh
 brew install zsh zsh-autosuggestions zsh-completions zsh-syntax-highlighting
 
@@ -40,67 +40,8 @@ brew install starship
 brew install --cask gpg-suite-no-mail
 
 # Install more recent versions of some macOS tools.
-PACKAGES=(
-  grep
-  openssh
-  screen
-  pgp
-  gmp
-  git
-  git-lfs
-  gs
-  lua
-  lynx
-  p7zip
-  pigz
-  pv
-  rename
-  rlwrap
-  ssh-copy-id
-  tree
-  vbindiff
-  zopfli
-  node
-  youtube-dl
-  zeromq
-  yarn
-  wp-cli
-  thefuck
-  volta
-  sqlite
-  ripgrep
-  rclone
-  python@3
-  pyenv
-  pipenv
-  exa
-  fd
-  ffmpeg
-  fx
-  fzf
-  gh
-  jq
-  lsd
-  bat
-  awscli
-  brotli
-  git-delta
-  git-recent
-  git-secrets
-  glow
-  graphviz
-  grex
-  howdoi
-  httpie
-  mcfly
-  nano
-  neovim
-  tfenv
-  tldr
-  watchman
-)
-brew install ${PACKAGES[@]}
-brew install vim --with-override-system-vi
+brew install grep openssh screen gmp git git-lfs gs lua lynx p7zip pigz pv rename rlwrap ssh-copy-id tree vbindiff zopfli node youtube-dl zeromq yarn wp-cli thefuck volta sqlite ripgrep rclone python@3 pyenv pipenv exa fd ffmpeg fx fzf gh jq lsd bat awscli brotli git-delta git-recent git-secrets glow graphviz grex howdoi httpie mcfly nano neovim tfenv tldr watchman
+#brew install vim --with-override-system-vi
 
 # Install font tools.
 brew tap bramstein/webfonttools
@@ -109,7 +50,7 @@ brew install sfnt2woff-zopfli
 brew install woff2
 
 # Development tools
-brew install imagemagick --with-webp
+brew install imagemagick
 
 npm install -g n serve
 
@@ -119,7 +60,8 @@ brew cleanup
 # === Configure macos ===
 
 # Set fast key repeat rate
-defaults write NSGlobalDomain KeyRepeat -int 0
+defaults write -g InitialKeyRepeat -int 15
+defaults write -g KeyRepeat -int 1
 
 # Require password as soon as screensaver or sleep mode starts
 defaults write com.apple.screensaver askForPassword -int 1
