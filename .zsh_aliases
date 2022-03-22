@@ -8,4 +8,6 @@ alias zshconfig="code ~/.zshrc"
 alias l='ls -l'
 alias la='ls -a'
 alias lla='ls -la'
-alias lt='ls --tree'
+
+# Additional git aliases
+alias gcnm='git commit --allow-empty'

@@ -37,7 +37,7 @@ curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/instal
 brew install starship
 
 # Install GPG suite to sign commits
-brew install --cask gpg-suite
+brew install --cask gpg-suite-no-mail
 
 # Install more recent versions of some macOS tools.
 PACKAGES=(
@@ -81,6 +81,23 @@ PACKAGES=(
   gh
   jq
   lsd
+  bat
+  awscli
+  brotli
+  git-delta
+  git-recent
+  git-secrets
+  glow
+  graphviz
+  grex
+  howdoi
+  httpie
+  mcfly
+  nano
+  neovim
+  tfenv
+  tldr
+  watchman
 )
 brew install ${PACKAGES[@]}
 brew install vim --with-override-system-vi

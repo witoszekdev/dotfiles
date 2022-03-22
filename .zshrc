@@ -1,8 +1,12 @@
+# Fig pre block. Keep at the top of this file.
+export PATH="${PATH}:${HOME}/.local/bin"
+# eval "$(fig init zsh pre)"
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/jonatanwitoszek/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -12,7 +16,7 @@ ZSH_THEME="robbyrussell"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
-# a theme from this variable instead of looking in ~/.oh-my-zsh/themes/
+# a theme from this variable instead of looking in $ZSH/themes/
 # If set to an empty array, this variable will have no effect.
 # ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
 
@@ -33,18 +37,20 @@ ZSH_THEME="robbyrussell"
 # export UPDATE_ZSH_DAYS=13
 
 # Uncomment the following line if pasting URLs and other text is messed up.
-# DISABLE_MAGIC_FUNCTIONS=true
+# DISABLE_MAGIC_FUNCTIONS="true"
 
 # Uncomment the following line to disable colors in ls.
 # DISABLE_LS_COLORS="true"
 
 # Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
+DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
 # ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
+# Caution: this setting can cause issues with multiline prompts (zsh 5.7.1 and newer seem to work)
+# See https://github.com/ohmyzsh/ohmyzsh/issues/5765
 # COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
@@ -64,16 +70,22 @@ ZSH_THEME="robbyrussell"
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
 # Which plugins would you like to load?
-# Standard plugins can be found in ~/.oh-my-zsh/plugins/*
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
+# Standard plugins can be found in $ZSH/plugins/
+# Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-completions poetry alias-tips)
-autoload -U compinit && compinit -u
-fpath+=~/.zfunc
-
+plugins=(
+  git
+  macos
+  zsh-autosuggestions
+  alias-tips
+)
 
 source $ZSH/oh-my-zsh.sh
+
+# Aliases
+
+source ~/.zsh_aliases
 
 # User configuration
 
@@ -98,102 +110,45 @@ source $ZSH/oh-my-zsh.sh
 # For a full list of active aliases, run `alias`.
 #
 # Example aliases
+# alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-source ~/.zsh_aliases
-
-# Starship prompt - starship.rs
-eval "$(starship init zsh)"
-
-unsetopt PROMPT_SP
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-export PATH="/usr/local/opt/python@3.8/bin:$PATH"
-export PATH="/usr/local/opt/python@3.8/bin:$PATH"
-
-[ -f "/Users/jonatanwitoszek/.shopify-app-cli/shopify.sh" ] && source "/Users/jonatanwitoszek/.shopify-app-cli/shopify.sh"
-
-fbd() {
-  local branches branch
-  branches=$(git for-each-ref --count=30 --sort=-committerdate refs/heads/ --format="%(refname:short)") &&
-  branch=$(echo "$branches" | fzf --multi ) &&
-  git branch -D $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
-}
-
-# Jetbrains Toolbox
-export PATH="/Users/jonatanwitoszek/.jetbrains-toolbox:$PATH"
-
-# Poetry
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-export PATH="$HOME/.poetry/bin:$PATH"
-
-if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init -)"
-fi
-
-eval $(thefuck --alias)
-
-###-begin-npm-completion-###
-#
-# npm command completion script
-#
-# Installation: npm completion >> ~/.bashrc  (or ~/.zshrc)
-# Or, maybe: npm completion > /usr/local/etc/bash_completion.d/npm
-#
-
-if type complete &>/dev/null; then
-  _npm_completion () {
-    local words cword
-    if type _get_comp_words_by_ref &>/dev/null; then
-      _get_comp_words_by_ref -n = -n @ -n : -w words -i cword
-    else
-      cword="$COMP_CWORD"
-      words=("${COMP_WORDS[@]}")
-    fi
-
-    local si="$IFS"
-    IFS=$'\n' COMPREPLY=($(COMP_CWORD="$cword" \
-                           COMP_LINE="$COMP_LINE" \
-                           COMP_POINT="$COMP_POINT" \
-                           npm completion -- "${words[@]}" \
-                           2>/dev/null)) || return $?
-    IFS="$si"
-    if type __ltrim_colon_completions &>/dev/null; then
-      __ltrim_colon_completions "${words[cword]}"
-    fi
-  }
-  complete -o default -F _npm_completion npm
-elif type compdef &>/dev/null; then
-  _npm_completion() {
-    local si=$IFS
-    compadd -- $(COMP_CWORD=$((CURRENT-1)) \
-                 COMP_LINE=$BUFFER \
-                 COMP_POINT=0 \
-                 npm completion -- "${words[@]}" \
-                 2>/dev/null)
-    IFS=$si
-  }
-  compdef _npm_completion npm
-elif type compctl &>/dev/null; then
-  _npm_completion () {
-    local cword line point words si
-    read -Ac words
-    read -cn cword
-    let cword-=1
-    read -l line
-    read -ln point
-    si="$IFS"
-    IFS=$'\n' reply=($(COMP_CWORD="$cword" \
-                       COMP_LINE="$line" \
-                       COMP_POINT="$point" \
-                       npm completion -- "${words[@]}" \
-                       2>/dev/null)) || return $?
-    IFS="$si"
-  }
-  compctl -K _npm_completion npm
-fi
-###-end-npm-completion-###
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
-export PATH="/usr/local/sbin:$PATH"
-export GPG_TTY=$(tty)
+eval "$(starship init zsh)"
+
+export PATH="/usr/local/opt/openjdk/bin:$PATH"
+eval "$(mcfly init zsh)"
+
+export PATH="/usr/local/opt/openjdk@8/bin:$PATH"
+
+# NF stuff
+eval "$(pyenv init -)"
+export WORKON_HOME="$HOME/.virtualenvs"
+export PROJECT_HOME="$HOME/PROJECTS/netguru/neuroflow"
+export PATH="/usr/local/opt/postgresql@10/bin:$PATH"
+export LDFLAGS="-L/usr/local/opt/postgresql@10/lib"
+export CPPFLAGS="-I/usr/local/opt/postgresql@10/include"
+export TANGO_BASE_API="https://integration-api.tangocard.com/raas/v2"
+export APP_ORCHARD_BASE_URL="http://127.0.0.1:5000/"
+export APP_ORCHARD_ID="39295255-2d00-4ac9-a3bd-f6ef32abf9ca"
+export CELERY_BROKER_URL="redis://localhost:6379/0"
+export RESULT_BACKEND="redis://localhost:6379/0"
+export NEURO_APP_ROOT="$HOME/PROJECTS/netguru/neuroflow"
+export FLASK_APP="$HOME/PROJECTS/netguru/neuroflow/src/app/__init__.py"
+export NEURO_APP_SETTINGS="$HOME/PROJECTS/netguru/neuroflow/local_config.py"
+export PYTHONPATH="$HOME/PROJECTS/netguru/neuroflow"
+export PROJECT_ROOT="$HOME/PROJECTS/netguru/neuroflow"
+source /Users/jonatanwitoszek/.pyenv/versions/3.8.5/bin/virtualenvwrapper.sh
+
+eval $(thefuck --alias)
+export PATH="/usr/local/opt/openjdk/bin:$PATH"
+
+# Change lang of git to English
+alias git='LANG=en_GB git'
+
+# Use NeoVim as vim
+alias vim='nvim'
+alias vimrc='vim ~/.config/nvim/init.vim'
+
+# Fig post block. Keep at the bottom of this file.
+eval "$(fig init zsh post)"

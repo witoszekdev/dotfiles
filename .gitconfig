@@ -1,0 +1,48 @@
+[user]
+	email = jonatanwitoszek@gmail.com
+	name = Jonatan Witoszek
+[core]
+	editor = vim
+	pager = delta
+	excludeFile = '~/.gitignore
+[push]
+	default = simple
+[commit]
+	gpgsign = true
+[gpg]
+	program = /usr/local/MacGPG2/bin/gpg2
+[credential]
+	helper = osxkeychain
+[color "status"]
+	changed = red bold strike
+	untracked = cyan
+[delta]
+	side-by-side = false
+	line-numbers = true
+[pager]
+	diff = delta -s
+[init]
+	defaultBranch = main
+[alias]
+	hs = log --pretty='%C(yellow)%h %C(cyan)%cd %Cblue%aN%C(auto)%d %Creset%s' --graph --date=relative --date-order
+[merge]
+	# conflictStyle = diff3
+	tool = webstorm
+[diff]
+    tool = kitty
+    guitool = kitty.gui
+[mergetool]
+	keepBackup = false
+[mergetool "webstorm"]
+  cmd = webstorm merge \"$LOCAL\" \"$REMOTE\" \"$BASE\" \"$MERGED\" && read
+[difftool "webstorm"]
+	cmd = webstorm diff \"$LOCAL\" \"$REMOTE\" && read
+[difftool "kitty"]
+    cmd = kitty +kitten diff $LOCAL $REMOTE
+[difftool "kitty.gui"]
+    cmd = kitty kitty +kitten diff $LOCAL $REMOTE
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true

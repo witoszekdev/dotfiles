@@ -1,0 +1,6 @@
+tsserver.organizeImports
+tsserver.sortImports
+eslint.executeAutofix
+document.renameCurrentWord
+workspace.showOutput
+prettier.formatFile
