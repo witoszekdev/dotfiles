@@ -22,7 +22,8 @@ set exrc " source vim.rc inside the folder vim is opened
 set hidden " keep opened files in the background
 set autoread " reload file when changed from outside
 lan mes en_US  " Change language to English
-set sessionoptions-=blank
+"set sessionoptions-=blank sessionoptions-=options
+set sessionoptions=buffers,curdir,tabpages,winsize
 set lazyredraw
 
 " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
@@ -45,3 +46,8 @@ set wildignore+=**/.git/*
 "
 "" Set vim to save the file on focus out.
 "au FocusLost * :wa
+
+" Use Polish keyboard
+set keymap=polish-slash_utf-8
+"set iminsert=0
+

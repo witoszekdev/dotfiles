@@ -1,6 +1,11 @@
 require("telescope").setup({
     defaults = {
-        color_devicons = true
+        color_devicons = true,
+        file_ignore_patterns = {
+            "node_modules",
+            "*.generated.*"
+        },
+        path_display={"smart"}
     },
     pickers = {
         find_files = {

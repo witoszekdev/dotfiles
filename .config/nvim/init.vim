@@ -35,13 +35,14 @@ Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-fugitive' 
 Plug 'shumphrey/fugitive-gitlab.vim'
 Plug 'tpope/vim-rhubarb'
+Plug 'pwntester/octo.nvim'
 
 " Code snippets
 Plug 'rafamadriz/friendly-snippets'
 
 " Code formatting
- "Plug 'jiangmiao/auto-pairs'
-Plug 'alvan/vim-closetag'
+ Plug 'jiangmiao/auto-pairs'
+"Plug 'alvan/vim-closetag'
 Plug 'godlygeek/tabular'
 " Plug 'sbdchd/neoformat'
 " Plug 'tpope/vim-commentary' " `gc` => toggle comment
@@ -50,6 +51,7 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'tpope/vim-sleuth'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 Plug 'tpope/vim-surround' " cs<current_wrapper><should_be_wrapper>, ex: cs\"'
+Plug 'AndrewRadev/tagalong.vim'
 
 " Other
 Plug 'vim-utils/vim-man'
@@ -58,13 +60,18 @@ Plug 'sudormrfbin/cheatsheet.nvim'
 Plug 'liuchengxu/vim-which-key'
 Plug 'tpope/vim-unimpaired'
 Plug 'thaerkh/vim-workspace'
+"Plug 'tpope/vim-obsession'
 Plug 'rbgrouleff/bclose.vim'
 Plug 'vim-test/vim-test'
+Plug 'wakatime/vim-wakatime'
+Plug 'romainl/vim-qf' " better quickfixlist
+Plug 'wsdjeg/vim-fetch' " open files with line numebr provided
 
 " Theme
 Plug 'ayu-theme/ayu-vim'
 Plug 'gruvbox-community/gruvbox'
 "Plug 'ryanoasis/vim-devicons'
+Plug 'kyazdani42/nvim-web-devicons'
 Plug 'Yggdroot/indentLine'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -83,16 +90,38 @@ command! -nargs=0 W :w
 nnoremap <silent> <A-w> :Bclose<CR>
 
 nnoremap <leader><CR> :so ~/.config/nvim/init.vim<CR>
-" Telescope
+
+" Use :close instead of :q
+cabbrev q <c-r>=(getcmdtype()==':' && getcmdpos()==1 ? 'close' : 'q')<CR>
+
+" Close all buffers except current one
+nnoremap <leader>qa :%bd\|e#\|bd#<CR>
+
+" Go to the end of tag
+nnoremap ]t vit<C-c>
+nnoremap [t vito<C-c>
+
+"Telescope
 nnoremap <C-p> :Telescope find_files<CR>
+nnoremap <S-C-p> :Telescope find_files hidden=true<CR>
 nnoremap <leader>pf :Telescope live_grep<CR>
 nnoremap <leader>po :Telescope buffers<CR>
 nnoremap <leader>h :Telescope help_tags<CR>
 nnoremap <leader>u :UndotreeShow<CR>
-" NERDTree
-"nnoremap <leader>pv :NERDTreeFocus<CR>
-"nnoremap <leader>Pv :NERDTreeFind<CR>
-"nnoremap <leader>tf :NERDTreeFocus<CR>
+" Fugitive
+let g:fugitive_pty = 0 " Fix for Fugitve + lint-staged
+nnoremap <leader>gh :GV<CR>
+nnoremap <leader>ghf :GV!<CR>
+nnoremap <leader>gs :Git<CR>
+command! -nargs=0 Gp :Git push
+command! -nargs=0 Gpf :Git push --force-with-lease
+command! -nargs=1 Gco :Git checkout <f-args>
+command! -nargs=1 Gcb :Git checkout --branch <f-args>
+
+" Octo
+nnoremap <leader>gpr :Octo pr list
+
+" Fern
 nnoremap <leader>pv :Fern . -reveal=% -drawer<CR>
 nnoremap <leader>Pv :Fern %:h -reveal=% -drawer<CR>
 " Terminal
@@ -127,10 +156,6 @@ nnoremap <leader>bc :bd<CR>
 "nnoremap <leader>7 :b7<CR>
 "nnoremap <leader>8 :b8<CR>
 "nnoremap <leader>9 :b9<CR>
-" git commands
-nnoremap <leader>gh :GV<CR>
-nnoremap <leader>ghf :GV!<CR>
-nnoremap <leader>gs :Git<CR>
 " show keys when started with leader but didn't complete
 nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
 " quick window navigation
@@ -160,9 +185,34 @@ augroup line_return
                 \ endif
 augroup END
 
+" Ignore terminals and quickfixlist when cycling through buffers
+
+"au BufEnter * if &buftype == 'terminal' | startinsert | else | stopinsert | endif
+    "function! PrevBufferTab()
+      "bprev
+      "if &buftype == 'terminal' || &buftype == 'quickfix'
+        "bprev
+      "endif
+    "endfunction
+    "function! NextBufferTab()
+      "bnext
+      "if &buftype == 'terminal' || &buftype == 'quickfix'
+"
+        "bnext
+      "endif
+    "endfunction
+"
+"nnoremap [b :call PrevBufferTab()<CR>
+"nnoremap ]b :call NextBufferTab()<CR>
+
+
 " vim-test config
 let test#strategy = {
   \ 'nearest': 'neovim',
   \ 'file':    'neovim',
   \ 'suite':   'kitty',
 \}
+
+" set TypeScript compiler options
+  autocmd FileType typescript let &makeprg='tsc --noEmit'
+  autocmd FileType typescriptreact let &makeprg='tsc --noEmit'
