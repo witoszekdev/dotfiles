@@ -52,6 +52,7 @@ Plug 'tpope/vim-sleuth'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 Plug 'tpope/vim-surround' " cs<current_wrapper><should_be_wrapper>, ex: cs\"'
 Plug 'AndrewRadev/tagalong.vim'
+Plug 'dkarter/bullets.vim'
 
 " Other
 Plug 'vim-utils/vim-man'
@@ -116,7 +117,9 @@ nnoremap <leader>gs :Git<CR>
 command! -nargs=0 Gp :Git push
 command! -nargs=0 Gpf :Git push --force-with-lease
 command! -nargs=1 Gco :Git checkout <f-args>
-command! -nargs=1 Gcb :Git checkout --branch <f-args>
+command! -nargs=1 Gcb :Git checkout -b <f-args>
+command! -nargs=0 Gl :Git autopull
+" note: autopull is defined in gitconfig
 
 " Octo
 nnoremap <leader>gpr :Octo pr list

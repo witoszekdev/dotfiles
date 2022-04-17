@@ -6,6 +6,7 @@ set shiftwidth=4
 set expandtab
 set smartindent
 set smartcase " include capital letter in search
+set ignorecase smartcase
 set incsearch
 " about history
 set noswapfile
@@ -21,7 +22,7 @@ set exrc " source vim.rc inside the folder vim is opened
 " set nohlsearch " hide search after we're done searching
 set hidden " keep opened files in the background
 set autoread " reload file when changed from outside
-lan mes en_US  " Change language to English
+"lan mes en_US  " Change language to English
 "set sessionoptions-=blank sessionoptions-=options
 set sessionoptions=buffers,curdir,tabpages,winsize
 set lazyredraw
@@ -47,7 +48,19 @@ set wildignore+=**/.git/*
 "" Set vim to save the file on focus out.
 "au FocusLost * :wa
 
+
 " Use Polish keyboard
-set keymap=polish-slash_utf-8
+function! SetUsLayout()
+    silent set keymap=""
+endfunction
+
+function! SetPlLayout()
+    silent set keymap=polish-slash_utf-8
+endfunction
+
+autocmd InsertLeave * call SetUsLayout()
+autocmd InsertEnter * call SetPlLayout()
 "set iminsert=0
 
+" NeoVim fix for volta
+let g:node_host_prog = system('volta which neovim-node-host | tr -d "\n"')
