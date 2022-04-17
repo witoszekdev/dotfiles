@@ -11,3 +11,4 @@ alias lla='ls -la'
 
 # Additional git aliases
 alias gcnm='git commit --allow-empty'
+alias gpf='git push --force-with-lease' # https://stackoverflow.com/a/37460330

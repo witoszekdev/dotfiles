@@ -89,6 +89,12 @@ source ~/.zsh_aliases
 
 # User configuration
 
+# History file, required for some plugins
+export HISTFILE=~/.zsh_history
+
+# Command completion
+autoload -U compinit; compinit
+
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
@@ -119,29 +125,7 @@ eval "$(starship init zsh)"
 export PATH="/usr/local/opt/openjdk/bin:$PATH"
 eval "$(mcfly init zsh)"
 
-export PATH="/usr/local/opt/openjdk@8/bin:$PATH"
-
-# NF stuff
-eval "$(pyenv init -)"
-export WORKON_HOME="$HOME/.virtualenvs"
-export PROJECT_HOME="$HOME/PROJECTS/netguru/neuroflow"
-export PATH="/usr/local/opt/postgresql@10/bin:$PATH"
-export LDFLAGS="-L/usr/local/opt/postgresql@10/lib"
-export CPPFLAGS="-I/usr/local/opt/postgresql@10/include"
-export TANGO_BASE_API="https://integration-api.tangocard.com/raas/v2"
-export APP_ORCHARD_BASE_URL="http://127.0.0.1:5000/"
-export APP_ORCHARD_ID="39295255-2d00-4ac9-a3bd-f6ef32abf9ca"
-export CELERY_BROKER_URL="redis://localhost:6379/0"
-export RESULT_BACKEND="redis://localhost:6379/0"
-export NEURO_APP_ROOT="$HOME/PROJECTS/netguru/neuroflow"
-export FLASK_APP="$HOME/PROJECTS/netguru/neuroflow/src/app/__init__.py"
-export NEURO_APP_SETTINGS="$HOME/PROJECTS/netguru/neuroflow/local_config.py"
-export PYTHONPATH="$HOME/PROJECTS/netguru/neuroflow"
-export PROJECT_ROOT="$HOME/PROJECTS/netguru/neuroflow"
-source /Users/jonatanwitoszek/.pyenv/versions/3.8.5/bin/virtualenvwrapper.sh
-
 eval $(thefuck --alias)
-export PATH="/usr/local/opt/openjdk/bin:$PATH"
 
 # Change lang of git to English
 alias git='LANG=en_GB git'
@@ -150,5 +134,11 @@ alias git='LANG=en_GB git'
 alias vim='nvim'
 alias vimrc='vim ~/.config/nvim/init.vim'
 
-# Fig post block. Keep at the bottom of this file.
-eval "$(fig init zsh post)"
+# Make Python3 the default
+export PATH=/usr/local/opt/python/libexec/bin:$PATH
+
+# Use coreutils from brew rather than macOS
+export PATH="/usr/local/opt/coreutils/libexec/gnubin:${PATH}"
+export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:${MANPATH}"
+
+eval "$(direnv hook zsh)"
