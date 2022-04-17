@@ -4,7 +4,7 @@ alias nr="npm run"
 alias zshconfig="code ~/.zshrc"
 
 # lsd shortcuts
-# alias ls='lsd'
+alias ls='lsd'
 alias l='ls -l'
 alias la='ls -a'
 alias lla='ls -la'
@@ -12,3 +12,9 @@ alias lla='ls -la'
 # Additional git aliases
 alias gcnm='git commit --allow-empty'
 alias gpf='git push --force-with-lease' # https://stackoverflow.com/a/37460330
+
+# nnn
+alias nnn='nnn -e'
+
+# bat
+alias cat='bat'

@@ -89,6 +89,9 @@ source ~/.zsh_aliases
 
 # User configuration
 
+# Load CLI utils configuration
+source ~/.config/zsh_global/index.zsh
+
 # History file, required for some plugins
 export HISTFILE=~/.zsh_history
 

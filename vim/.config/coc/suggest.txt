@@ -1,3 +1,4 @@
+zsh_|zsh_global|file|
 |NME|tsserver-typescript
 log|logOut|tsserver-javascript
 |div|tsserver-javascript
