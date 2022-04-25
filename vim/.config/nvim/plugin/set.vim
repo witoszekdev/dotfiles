@@ -16,16 +16,18 @@ set undofile
 set termguicolors     " enable true colors support
 set noerrorbells
 set completeopt=menuone,menu,noinsert,noselect " autocomplete, don't choose automatically
-" set spell spelllang=en,pl
+set nocompatible " for vim-polyglot
+"set spell spelllang=en,pl
 set cursorline
 set exrc " source vim.rc inside the folder vim is opened
 " set nohlsearch " hide search after we're done searching
 set hidden " keep opened files in the background
 set autoread " reload file when changed from outside
-"lan mes en_US  " Change language to English
+lan mes en_US  " Change language to English
 "set sessionoptions-=blank sessionoptions-=options
 set sessionoptions=buffers,curdir,tabpages,winsize
 set lazyredraw
+set laststatus=3 " globa status bar
 
 " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
 " delays and poor user experience.

@@ -1,4 +1,4 @@
-let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-tsserver', 'coc-html', 'coc-css', 'coc-snippets', 'coc-emmet', 'coc-prisma' ]
+let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-tsserver', 'coc-html', 'coc-css', 'coc-snippets', 'coc-emmet', 'coc-prisma', 'coc-yaml' ]
 let g:coc_auto_copen = 0
 
 if isdirectory('./node_modules') && isdirectory('./node_modules/prettier')
@@ -38,6 +38,10 @@ inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" Use location list instead of quickfixlist for refactors
+let g:coc_enable_locationlist = 0
+autocmd User CocLocationsChange call setloclist(0, g:coc_jump_locations) | lwindow
 
 " GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)
@@ -143,7 +147,7 @@ command! -nargs=0 OR   :call     CocActionAsync('runCommand', 'editor.action.org
 " " Resume latest coc list.
 " nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 
-"let g:coc_filetype_map = {
-  "\ 'xhtml': 'html',
-  "\ 'js': 'javascriptreact',
-  "\ }
+let g:coc_filetype_map = {
+  \ 'xhtml': 'html',
+  \ 'yaml.ansible': 'ansible',
+  \ }

@@ -20,6 +20,7 @@ Plug 'lambdalisue/fern-renderer-nerdfont.vim'
 Plug 'lambdalisue/fern-git-status.vim'
 Plug 'lambdalisue/glyph-palette.vim'
 Plug 'antoinemadec/FixCursorHold.nvim'
+Plug 'ThePrimeagen/harpoon'
 
 " Code completion
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -41,18 +42,20 @@ Plug 'pwntester/octo.nvim'
 Plug 'rafamadriz/friendly-snippets'
 
 " Code formatting
- Plug 'jiangmiao/auto-pairs'
+Plug 'jiangmiao/auto-pairs'
+Plug 'ThePrimeagen/refactoring.nvim'
 "Plug 'alvan/vim-closetag'
 Plug 'godlygeek/tabular'
 " Plug 'sbdchd/neoformat'
 " Plug 'tpope/vim-commentary' " `gc` => toggle comment
 Plug 'scrooloose/nerdcommenter'
 " Plug 'editorconfig/editorconfig-vim'
-Plug 'tpope/vim-sleuth'
+Plug 'tpope/vim-sleuth' " -> provided by vim-polyglot
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 Plug 'tpope/vim-surround' " cs<current_wrapper><should_be_wrapper>, ex: cs\"'
 Plug 'AndrewRadev/tagalong.vim'
 Plug 'dkarter/bullets.vim'
+Plug 'matze/vim-move'
 
 " Other
 Plug 'vim-utils/vim-man'
@@ -67,6 +70,8 @@ Plug 'vim-test/vim-test'
 Plug 'wakatime/vim-wakatime'
 Plug 'romainl/vim-qf' " better quickfixlist
 Plug 'wsdjeg/vim-fetch' " open files with line numebr provided
+Plug 'metakirby5/codi.vim'
+Plug 'windwp/nvim-projectconfig'
 
 " Theme
 Plug 'ayu-theme/ayu-vim'
@@ -95,8 +100,44 @@ nnoremap <leader><CR> :so ~/.config/nvim/init.vim<CR>
 " Use :close instead of :q
 cabbrev q <c-r>=(getcmdtype()==':' && getcmdpos()==1 ? 'close' : 'q')<CR>
 
-" Close all buffers except current one
+" Close all buffers except the focused one
+"nnoremap <leader>qe :%bd\|e#\|bd#<CR>
 nnoremap <leader>qa :%bd\|e#\|bd#<CR>
+
+" Close all buffers except visible ones
+"function! Wipeout()
+  "" list of *all* buffer numbers
+  "let l:buffers = range(1, bufnr('$'))
+"
+  "" what tab page are we in?
+  "let l:currentTab = tabpagenr()
+  "try
+    "" go through all tab pages
+    "let l:tab = 0
+    "while l:tab < tabpagenr('$')
+      "let l:tab += 1
+"
+      "" go through all windows
+      "let l:win = 0
+      "while l:win < winnr('$')
+        "let l:win += 1
+        "" whatever buffer is in this window in this tab, remove it from
+        "" l:buffers list
+        "let l:thisbuf = winbufnr(l:win)
+        "call remove(l:buffers, index(l:buffers, l:thisbuf))
+      "endwhile
+    "endwhile
+"
+    "" if there are any buffers left, delete them
+    "if len(l:buffers)
+      "execute 'bwipeout' join(l:buffers)
+    "endif
+  "finally
+    "" go back to our original tab page
+    "execute 'tabnext' l:currentTab
+  "endtry
+"endfunction
+"nnoremap <leader>qa :call Wipeout()<CR>
 
 " Go to the end of tag
 nnoremap ]t vit<C-c>
@@ -140,8 +181,9 @@ vnoremap <leader>y "+y
 nnoremap <leader>y "+y
 nnoremap <leader>Y gg"+yG<C-o>
 " move selected line of code
-vnoremap J :m '>+1<CR>gv=gv
-vnoremap K :m '<-2<CR>gv=gv
+" taken care by vim-move
+"vnoremap J :m '>+1<CR>gv=gv
+"vnoremap K :m '<-2<CR>gv=gv
 " resize windows
 nnoremap <leader>= :vertical resize +5<CR>
 nnoremap <leader>- :vertical resize -5<CR>
@@ -166,6 +208,27 @@ nmap <silent> <A-Up> :wincmd k<CR>
 nmap <silent> <A-Down> :wincmd j<CR>
 nmap <silent> <A-Left> :wincmd h<CR>
 nmap <silent> <A-Right> :wincmd l<CR>
+
+vnoremap <silent> <leader>re <Esc><Cmd>lua require('refactoring').refactor('Extract Function')<CR>
+vnoremap <silent> <leader>rf <Esc><Cmd>lua require('refactoring').refactor('Extract Function To File')<CR>
+vnoremap <silent> <leader>rv <Esc><Cmd>lua require('refactoring').refactor('Extract Variable')<CR>
+vnoremap <silent> <leader>ri <Esc><Cmd>lua require('refactoring').refactor('Inline Variable')<CR>
+
+nnoremap <silent> <leader>rb <Cmd>lua require('refactoring').refactor('Extract Block')<CR>
+nnoremap <silent> <leader>rbf <Cmd>lua require('refactoring').refactor('Extract Block To File')<CR>
+nnoremap <silent> <leader>ri <Cmd>lua require('refactoring').refactor('Inline Variable')<CR>
+
+vnoremap <silent> <leader>rr <Esc><cmd>lua require('telescope').extensions.refactoring.refactors()<CR>
+
+" Harpoon
+nnoremap <silent> <leader>mc <cmd>lua require("harpoon.mark").add_file()<CR>
+nnoremap <silent> <leader>ma <cmd>lua require("harpoon.ui").toggle_quick_menu()<CR>
+nnoremap ]h <cmd>lua require("harpoon.ui").nav_next()<CR>
+nnoremap [h <cmd>lua require("harpoon.ui").nav_prev()<CR>
+nnoremap <silent> <leader>m1 <cmd>lua require("harpoon.ui").nav_file(1)<CR>
+nnoremap <silent> <leader>m2 <cmd>lua require("harpoon.ui").nav_file(2)<CR>
+nnoremap <silent> <leader>m3 <cmd>lua require("harpoon.ui").nav_file(3)<CR>
+nnoremap <silent> <leader>m4 <cmd>lua require("harpoon.ui").nav_file(4)<CR>
 
 " Temp fix - map .js files to .jsx file format
 augroup filetype_jsx
