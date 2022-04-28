@@ -96,7 +96,13 @@ source ~/.config/zsh_global/index.zsh
 export HISTFILE=~/.zsh_history
 
 # Command completion
-autoload -U compinit; compinit
+if type brew &>/dev/null; then
+  export FPATH="$(brew --prefix)/share/zsh-completions:${FPATH}"
+
+  autoload -Uz compinit
+  compinit
+fi
+autoload -U bashcompinit; bashcompinit
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -137,11 +143,16 @@ alias git='LANG=en_GB git'
 alias vim='nvim'
 alias vimrc='vim ~/.config/nvim/init.vim'
 
-# Make Python3 the default
+# Make Python3.9 the default
+# Make sure to install python in this version - brew install python3.9
 export PATH=/usr/local/opt/python/libexec/bin:$PATH
+export PATH=/Users/jonatanwitoszek/Library/Python/3.9/bin:$PATH
+export PYTHONPATH=`brew --prefix`/lib/python3.9/site-packages
 
 # Use coreutils from brew rather than macOS
 export PATH="/usr/local/opt/coreutils/libexec/gnubin:${PATH}"
 export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:${MANPATH}"
 
 eval "$(direnv hook zsh)"
+
+[ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh

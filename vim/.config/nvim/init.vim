@@ -5,8 +5,8 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzy-native.nvim'
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'nvim-treesitter/playground'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate', 'commit': 'a8bce851bf3bde7c9c25b1d504dc25c877d66713'}
+"Plug 'nvim-treesitter/playground'
 Plug 'romgrk/nvim-treesitter-context'
 
 " File tree
@@ -43,7 +43,7 @@ Plug 'rafamadriz/friendly-snippets'
 
 " Code formatting
 Plug 'jiangmiao/auto-pairs'
-Plug 'ThePrimeagen/refactoring.nvim'
+"Plug 'ThePrimeagen/refactoring.nvim'
 "Plug 'alvan/vim-closetag'
 Plug 'godlygeek/tabular'
 " Plug 'sbdchd/neoformat'
@@ -72,6 +72,7 @@ Plug 'romainl/vim-qf' " better quickfixlist
 Plug 'wsdjeg/vim-fetch' " open files with line numebr provided
 Plug 'metakirby5/codi.vim'
 Plug 'windwp/nvim-projectconfig'
+Plug 'mtth/scratch.vim'
 
 " Theme
 Plug 'ayu-theme/ayu-vim'
@@ -153,7 +154,8 @@ nnoremap <leader>u :UndotreeShow<CR>
 " Fugitive
 let g:fugitive_pty = 0 " Fix for Fugitve + lint-staged
 nnoremap <leader>gh :GV<CR>
-nnoremap <leader>ghf :GV!<CR>
+nnoremap <leader>gf :GV!<CR>
+nnoremap <leader>gfl :0Gllog<CR>
 nnoremap <leader>gs :Git<CR>
 command! -nargs=0 Gp :Git push
 command! -nargs=0 Gpf :Git push --force-with-lease
@@ -241,6 +243,10 @@ augroup END
 command! -nargs=0 CopyPath let @*=expand('%') 
 command! -nargs=0 CopyPathAbsolute let @*=expand('%:p') 
 command! -nargs=0 CopyPathLine let @*=join([expand('%'),  line(".")], ':') 
+
+" Update keyboard to PL / EN
+command! -nargs=0 KeyboardPL :set keymap=polish-slash_utf-8
+command! -nargs=0 KeyboardEN :set keymap=""
 
 " Make Sure that Vim returns to the same line when we reopen a file"
 augroup line_return

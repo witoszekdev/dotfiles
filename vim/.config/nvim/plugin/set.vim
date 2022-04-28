@@ -50,18 +50,17 @@ set wildignore+=**/.git/*
 "" Set vim to save the file on focus out.
 "au FocusLost * :wa
 
-
 " Use Polish keyboard
-function! SetUsLayout()
-    silent set keymap=""
-endfunction
-
-function! SetPlLayout()
-    silent set keymap=polish-slash_utf-8
-endfunction
-
-autocmd InsertLeave * call SetUsLayout()
-autocmd InsertEnter * call SetPlLayout()
+"function! SetUsLayout()
+    "silent set keymap=""
+"endfunction
+"
+"function! SetPlLayout()
+    "silent set keymap=polish-slash_utf-8
+"endfunction
+"
+"autocmd InsertLeave * call SetUsLayout()
+"autocmd InsertEnter * call SetPlLayout()
 "set iminsert=0
 
 " NeoVim fix for volta

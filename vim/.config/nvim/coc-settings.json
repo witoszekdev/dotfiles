@@ -1,5 +1,11 @@
 {
   "eslint.autoFixOnSave": true,
+  "yaml": {
+    "enable": true,
+    "format": {
+      "enable": true
+    }
+  },
   "git.enableGlobalStatus": false,
   "coc.preferences.formatOnSaveFiletypes": [
     "javascript",

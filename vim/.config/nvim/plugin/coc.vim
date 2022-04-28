@@ -40,8 +40,8 @@ nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
 " Use location list instead of quickfixlist for refactors
-let g:coc_enable_locationlist = 0
-autocmd User CocLocationsChange call setloclist(0, g:coc_jump_locations) | lwindow
+"let g:coc_enable_locationlist = 0
+"autocmd User CocLocationsChange call setloclist(0, g:coc_jump_locations) | lwindow
 
 " GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)
