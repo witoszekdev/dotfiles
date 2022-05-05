@@ -1,3 +1,7 @@
 .DS_Store
 node_modules
 /vim/.config/coc/extensions
+/cli-tools/.config/gh/hosts.yml
+/vim/.config/nvim/autoload
+/zsh/.config/thefuck/__pycache__/
+/vim/.vim/autoload/plug.vim
