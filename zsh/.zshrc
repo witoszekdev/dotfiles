@@ -1,5 +1,9 @@
 # Fig pre block. Keep at the top of this file.
 export PATH="${PATH}:${HOME}/.local/bin"
+
+# Fixes for M1 MacBooks
+export PATH=/opt/homebrew/bin:$PATH
+export PATH=/opt/homebrew/lib/python3.9/site-packages:$PATH
 # eval "$(fig init zsh pre)"
 
 # If you come from bash you might have to change your $PATH.
