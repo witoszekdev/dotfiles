@@ -1,4 +1,5 @@
 set scrolloff=8
+set sidescrolloff=8
 set number
 set relativenumber
 set tabstop=4 softtabstop=4
@@ -27,9 +28,13 @@ lan mes en_US  " Change language to English
 "set sessionoptions-=blank sessionoptions-=options
 set sessionoptions=buffers,curdir,tabpages,winsize
 set lazyredraw
+set redrawtime=10000 " more time for loading syntax on large files
 set laststatus=3 " globa status bar
+set list
+set listchars=tab:▸\ ,trail:·
+"set mouse=a " plz forgive me
 
-" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+"Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
 " delays and poor user experience.
 set updatetime=300
 " Don't pass messages to |ins-completion-menu|.
