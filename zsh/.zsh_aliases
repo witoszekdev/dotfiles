@@ -21,3 +21,6 @@ alias cat='bat'
 
 # zoxide
 alias z='zoxide'
+
+# open vim as server
+alias svim='nvim --listen /tmp/nvimsocket'
