@@ -2,7 +2,7 @@
 	email = jonatanwitoszek@gmail.com
 	name = Jonatan Witoszek
 [core]
-	editor = vim
+	editor = nvr --remote-wait-silent
 	pager = delta
 	excludeFile = ~/.gitignore
 [push]

@@ -307,3 +307,7 @@ let test#strategy = {
 " set TypeScript compiler options
   autocmd FileType typescript let &makeprg='tsc --noEmit'
   autocmd FileType typescriptreact let &makeprg='tsc --noEmit'
+
+" use neovim server as git commit editor
+autocmd FileType gitcommit,gitrebase,gitconfig set bufhidden=delete
+
