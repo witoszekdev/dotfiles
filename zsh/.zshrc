@@ -136,7 +136,6 @@ export PATH="$VOLTA_HOME/bin:$PATH"
 eval "$(starship init zsh)"
 
 export PATH="/usr/local/opt/openjdk/bin:$PATH"
-eval "$(mcfly init zsh)"
 
 eval $(thefuck --alias)
 
@@ -160,3 +159,12 @@ export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:${MANPATH}"
 eval "$(direnv hook zsh)"
 
 [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
+
+#fzf-history-widget-accept() {
+  #fzf-history-widget
+  #zle accept-line
+#}
+#zle     -N     fzf-history-widget-accept
+#bindkey '^X^R' fzf-history-widget-accept
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
