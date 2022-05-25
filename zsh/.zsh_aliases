@@ -12,6 +12,14 @@ alias lla='ls -la'
 # Additional git aliases
 alias gcnm='git commit --allow-empty'
 alias gpf='git push --force-with-lease' # https://stackoverflow.com/a/37460330
+checkout() {
+    if [ -z "$1" ] ; then
+        git checkout $(git branch | fzf | tr -d '[:space:]' | tr -d '^[*+]') $@
+    else
+        git checkout $@
+    fi
+}
+alias gco='checkout'
 
 # nnn
 alias nnn='nnn -e'
