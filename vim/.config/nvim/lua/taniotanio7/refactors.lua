@@ -1,4 +1,4 @@
---require('refactoring').setup({})
+require('refactoring').setup({})
 --
 --require("telescope").load_extension("refactoring")
 --vim.api.nvim_set_keymap(
