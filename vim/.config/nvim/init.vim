@@ -3,8 +3,10 @@ call plug#begin('~/.vim/plugged')
 " File navigation
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-lua/popup.nvim'
+Plug 'ldelossa/litee.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzy-native.nvim'
+Plug 'nvim-telescope/telescope-live-grep-raw.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate', 'commit': 'a8bce851bf3bde7c9c25b1d504dc25c877d66713'}
 "Plug 'nvim-treesitter/playground'
 Plug 'romgrk/nvim-treesitter-context'
@@ -37,13 +39,14 @@ Plug 'tpope/vim-fugitive'
 Plug 'shumphrey/fugitive-gitlab.vim'
 Plug 'tpope/vim-rhubarb'
 Plug 'pwntester/octo.nvim'
+Plug 'ldelossa/gh.nvim'
 
 " Code snippets
 Plug 'rafamadriz/friendly-snippets'
 
 " Code formatting
 Plug 'jiangmiao/auto-pairs'
-"Plug 'ThePrimeagen/refactoring.nvim'
+Plug 'ThePrimeagen/refactoring.nvim'
 "Plug 'alvan/vim-closetag'
 Plug 'godlygeek/tabular'
 " Plug 'sbdchd/neoformat'
@@ -73,6 +76,8 @@ Plug 'wsdjeg/vim-fetch' " open files with line numebr provided
 Plug 'metakirby5/codi.vim'
 Plug 'windwp/nvim-projectconfig'
 Plug 'mtth/scratch.vim'
+Plug 'akinsho/toggleterm.nvim'
+Plug 'folke/todo-comments.nvim'
 
 " Theme
 Plug 'ayu-theme/ayu-vim'
@@ -97,6 +102,7 @@ command! -nargs=0 W :w
 nnoremap <silent> <A-w> :Bclose<CR>
 
 nnoremap <leader><CR> :so ~/.config/nvim/init.vim<CR>
+nnoremap <leader>x :!chmod +x %<CR>
 
 " Use :close instead of :q
 cabbrev q <c-r>=(getcmdtype()==':' && getcmdpos()==1 ? 'close' : 'q')<CR>
@@ -149,6 +155,7 @@ nnoremap <C-p> :Telescope find_files<CR>
 nnoremap <S-C-p> :Telescope find_files hidden=true<CR>
 nnoremap <leader>pf :Telescope live_grep<CR>
 nnoremap <leader>po :Telescope buffers<CR>
+nnoremap <leader>pg :lua require("telescope").extensions.live_grep_raw.live_grep_raw()<CR>
 nnoremap <leader>h :Telescope help_tags<CR>
 nnoremap <leader>u :UndotreeShow<CR>
 " Fugitive
@@ -243,6 +250,8 @@ augroup END
 command! -nargs=0 CopyPath let @*=expand('%') 
 command! -nargs=0 CopyPathAbsolute let @*=expand('%:p') 
 command! -nargs=0 CopyPathLine let @*=join([expand('%'),  line(".")], ':') 
+nnoremap <leader>cp :CopyPath<CR>
+nnoremap <leader>cpl :CopyPathLine<CR>
 
 " Update keyboard to PL / EN
 command! -nargs=0 KeyboardPL :set keymap=polish-slash_utf-8
@@ -255,6 +264,16 @@ augroup line_return
                 \ if line("'\"") > 0 && line("'\"") <= line("$") |
                 \ execute 'normal! g`"zvzz' |
                 \ endif
+augroup END
+
+augroup envrc
+  au!
+  autocmd BufNewFile,BufRead .envrc  set filetype=bash
+augroup END
+
+augroup QuickFix
+  au FileType qf nnoremap rr :Reject
+  au FileType qf xnoremap rr :Reject
 augroup END
 
 " Ignore terminals and quickfixlist when cycling through buffers
