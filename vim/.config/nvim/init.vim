@@ -3,10 +3,12 @@ call plug#begin('~/.vim/plugged')
 " File navigation
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-lua/popup.nvim'
+Plug 'tami5/sqlite.lua'
 Plug 'ldelossa/litee.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzy-native.nvim'
 Plug 'nvim-telescope/telescope-live-grep-raw.nvim'
+Plug 'nvim-telescope/telescope-frecency.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate', 'commit': 'a8bce851bf3bde7c9c25b1d504dc25c877d66713'}
 "Plug 'nvim-treesitter/playground'
 Plug 'romgrk/nvim-treesitter-context'
@@ -91,7 +93,7 @@ Plug 'lambdalisue/battery.vim'
 
 call plug#end()
 
-lua require("taniotanio7")
+lua require("witoszekdev")
 
 let mapleader = " "
 

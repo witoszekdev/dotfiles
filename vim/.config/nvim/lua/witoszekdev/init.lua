@@ -1,0 +1,8 @@
+require('nvim-projectconfig').setup()
+require("witoszekdev.octo-github")
+require("witoszekdev.github")
+require("witoszekdev.terminal")
+require("witoszekdev.refactors")
+require("witoszekdev.telescope")
+require("witoszekdev.todo")
+require("witoszekdev.treesitter")
