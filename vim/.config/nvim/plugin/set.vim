@@ -70,3 +70,7 @@ set wildignore+=**/.git/*
 
 " NeoVim fix for volta
 let g:node_host_prog = system('volta which neovim-node-host | tr -d "\n"')
+
+" in millisecond, used for both CursorHold and CursorHoldI,
+" use updatetime instead if not defined
+let g:cursorhold_updatetime = 100
