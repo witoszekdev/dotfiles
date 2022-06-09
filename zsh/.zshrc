@@ -135,15 +135,17 @@ export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
 eval "$(starship init zsh)"
 
-export PATH="/usr/local/opt/openjdk/bin:$PATH"
-
 eval $(thefuck --alias)
+eval "$(zoxide init zsh)"
+
+export PATH="/usr/local/opt/openjdk/bin:$PATH"
 
 # Change lang of git to English
 alias git='LANG=en_GB git'
 
 # Use NeoVim as vim
-alias vim='nvim'
+#alias vim='nvim'
+alias vim='lvim'
 alias vimrc='vim ~/.config/nvim/init.vim'
 
 # Make Python3.9 the default

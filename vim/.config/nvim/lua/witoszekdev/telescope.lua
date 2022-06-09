@@ -5,7 +5,8 @@ require("telescope").setup({
             "node_modules",
             "*.generated.*"
         },
-        path_display={"smart"}
+        path_display={"smart"},
+        use_less = true
     },
     pickers = {
         find_files = {
