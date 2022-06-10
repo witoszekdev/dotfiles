@@ -4,3 +4,4 @@ node_modules
 /vim/.config/nvim/autoload
 /zsh/.config/thefuck/__pycache__/
 /vim/.vim/autoload/plug.vim
+.undodir
