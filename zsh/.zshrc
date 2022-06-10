@@ -170,3 +170,8 @@ eval "$(direnv hook zsh)"
 #bindkey '^X^R' fzf-history-widget-accept
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# pnpm
+export PNPM_HOME="/Users/jonatanwitoszek/Library/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+# pnpm endexport PATH="/usr/local/opt/openjdk/bin:$PATH"
