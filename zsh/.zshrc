@@ -111,7 +111,8 @@ autoload -U bashcompinit; bashcompinit
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
-# export LANG=en_US.UTF-8
+export LANG=en_US.UTF-8
+export LC_CTYPE="en_US.UTF-8"
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
@@ -145,8 +146,10 @@ alias git='LANG=en_GB git'
 
 # Use NeoVim as vim
 #alias vim='nvim'
-alias vim='lvim'
+alias vim='lvim --listen /tmp/nvimsocket'
 alias vimrc='vim ~/.config/nvim/init.vim'
+alias v='vim --listen /tmp/nvimsocket'
+export NVR_CMD="lvim"
 
 # Make Python3.9 the default
 # Make sure to install python in this version - brew install python3.9
