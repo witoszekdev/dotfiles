@@ -2,6 +2,8 @@
 lvim.log.level = "warn"
 lvim.format_on_save = true
 lvim.colorscheme = "gruvbox"
+-- lvim.colorscheme = "github_light"
+-- vim.o.background = "light"
 vim.opt.background = "dark"
 vim.g.gruvbox_contrast_dark = "hard"
 vim.opt.clipboard = ""
@@ -14,6 +16,7 @@ vim.opt.relativenumber = true
 lvim.plugins = {
   -- theme
   "ellisonleao/gruvbox.nvim",
+  "projekt0n/github-nvim-theme", -- for light theme
   {
     "lukas-reineke/indent-blankline.nvim",
     event = "BufRead",
@@ -78,12 +81,12 @@ lvim.plugins = {
     end
   },
   {
-    "nvim-telescope/telescope-live-grep-raw.nvim",
+    "nvim-telescope/telescope-live-grep-args.nvim",
     requires = {
       { "nvim-telescope/telescope.nvim" }
     },
     config = function()
-      require("telescope").load_extension("live_grep_raw")
+      require("telescope").load_extension("live_grep_args")
     end
   },
   {
@@ -294,7 +297,7 @@ lvim.plugins = {
   },
   {
     "SidOfc/mkdx"
-  }
+  },
 }
 
 -- keymappings [view all the defaults by pressing <leader>Lk]
@@ -403,6 +406,23 @@ lvim.builtin.which_key.mappings["m"] = {
     ["9"] = { function() require("harpoon.ui").nav_file(9) end, "Go to file no. 9" },
   },
 }
+
+vim.keymap.set("n", "]r", "<Plug>(ultest-next-fail)")
+vim.keymap.set("n", "[r", "<Plug>(ultest-prev-fail)")
+
+lvim.builtin.which_key.mappings["t"] = {
+  name = "Tests",
+  T = { "<Plug>(ultest-run-file)", "run all in file" },
+  t = { "<Plug>(ultest-run-nearest)", "run nearest" },
+  r = { "<Plug>(ultest-run-last)", "run last test" },
+  o = { "<Plug>(ultest-summary-jump)", "show summary" },
+  l = { "<Plug>(ultest-output-show)", "show log" },
+  i = { "<Plug>(ultest-debug-nearest)", "debug nearest" },
+  I = { "<Plug>(ultest-debug)", "debug file" },
+  h = { "<Plug>(ultest-stop-nearest)", "stop nearest test" },
+  H = { "<Plug>(ultest-stop-file)", "stop tests in file" }
+}
+
 vim.api.nvim_set_keymap("n", "]h", '', {
   noremap = true,
   callback = function()
@@ -654,7 +674,7 @@ lvim.builtin.lualine.sections.lualine_b = {
   filenameComponent
 }
 
-vim.api.nvim_set_var("workspace_session_directory", join_paths(get_config_dir(), "sessions"))
+vim.api.nvim_set_var("workspace_session_directory", "~/.config/lvim/sessions")
 vim.api.nvim_set_var("workspace_undodir", ".undodir")
 vim.api.nvim_set_var("workspace_session_disable_on_args", 1)
 vim.api.nvim_set_var("workspace_autosave", 0)

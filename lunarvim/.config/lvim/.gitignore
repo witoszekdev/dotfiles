@@ -1,3 +1,4 @@
-session*
+sessions*
 file_frecency.sqlite3
-.undodir/
+.undodir
+
