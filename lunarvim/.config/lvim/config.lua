@@ -2,14 +2,19 @@
 lvim.log.level = "warn"
 lvim.format_on_save = true
 lvim.colorscheme = "gruvbox"
--- lvim.colorscheme = "github_light"
--- vim.o.background = "light"
 vim.opt.background = "dark"
 vim.g.gruvbox_contrast_dark = "hard"
 vim.opt.clipboard = ""
 vim.opt.mouse = "n"
 vim.opt.splitbelow = false
 vim.opt.relativenumber = true
+
+if os.getenv("COLORSCHEME") == 'light' or vim.g.colorscheme == 'light' then
+  lvim.colorscheme = "github_light"
+  vim.o.background = "light"
+end
+
+print(vim.g.colorscheme)
 
 -- Additional Plugins
 -- Configuration syntax: https://github.com/wbthomason/packer.nvim#the-startup-function
@@ -205,6 +210,9 @@ lvim.plugins = {
     config = function()
       require("lsp_signature").setup()
     end
+  },
+  {
+    "Vimjas/vim-python-pep8-indent"
   },
   -- misc
   {

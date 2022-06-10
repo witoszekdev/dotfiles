@@ -178,3 +178,6 @@ eval "$(direnv hook zsh)"
 export PNPM_HOME="/Users/jonatanwitoszek/Library/pnpm"
 export PATH="$PNPM_HOME:$PATH"
 # pnpm endexport PATH="/usr/local/opt/openjdk/bin:$PATH"
+
+# color theme
+export COLORSCHEME="dark" # dark | light
