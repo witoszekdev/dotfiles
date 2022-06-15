@@ -41,7 +41,7 @@ lvim.plugins = {
     "folke/trouble.nvim",
     config = function()
       require("trouble").setup {
-        use_diagnostic_signs = true
+        use_diagnostic_signs = true,
       }
     end
   },
@@ -336,12 +336,15 @@ lvim.builtin.which_key.mappings["y"] = {
 lvim.builtin.which_key.mappings["x"] = {
   name = "Diagnostics",
   x = { "<cmd>TroubleToggle<cr>", "trouble" },
-  w = { "<cmd>TroubleToggle lsp_workspace_diagnostics<cr>", "workspace" },
-  d = { "<cmd>TroubleToggle lsp_document_diagnostics<cr>", "document" },
+  w = { "<cmd>TroubleToggle workspace_diagnostics<cr>", "workspace" },
+  d = { "<cmd>TroubleToggle document_diagnostics<cr>", "document" },
   q = { "<cmd>TroubleToggle quickfix<cr>", "quickfix" },
   l = { "<cmd>TroubleToggle loclist<cr>", "loclist" },
   r = { "<cmd>TroubleToggle lsp_references<cr>", "references" },
+  K = { function() vim.diagnostic.open_float() end, "show line errors" }
 }
+
+vim.keymap.set("n", "T", function() vim.diagnostic.open_float() end)
 
 lvim.builtin.which_key.mappings["g"] = {
   name = "Git",
@@ -746,17 +749,17 @@ end
 -- }
 
 -- Linters & Formatters
-local formatters = require "lvim.lsp.null-ls.formatters"
-formatters.setup {
-  { command = "prettier", filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" } }
-}
+-- local formatters = require "lvim.lsp.null-ls.formatters"
+-- formatters.setup {
+--   { command = "prettier", filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" } }
+-- }
 
-local code_actions = require "lvim.lsp.null-ls.code_actions"
-code_actions.setup {
-  {
-    name = "eslint_d"
-  }
-}
+-- local code_actions = require "lvim.lsp.null-ls.code_actions"
+-- code_actions.setup {
+--   {
+--     name = "eslint_d"
+--   }
+-- }
 
 -- use lostlist instead of quickfixlsit
 local on_references = vim.lsp.handlers["textDocument/references"]
