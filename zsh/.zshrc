@@ -2,8 +2,10 @@
 export PATH="${PATH}:${HOME}/.local/bin"
 
 # Fixes for M1 MacBooks
-export PATH=/opt/homebrew/bin:$PATH
-export PATH=/opt/homebrew/lib/python3.9/site-packages:$PATH
+if [[ $(uname -m) == 'arm64' ]]; then
+  export PATH=/opt/homebrew/bin:$PATH
+  export PATH=/opt/homebrew/lib/python3.9/site-packages:$PATH
+fi
 # eval "$(fig init zsh pre)"
 
 # If you come from bash you might have to change your $PATH.
