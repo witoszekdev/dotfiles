@@ -286,6 +286,14 @@ lvim.plugins = {
     requires = { "vim-test/vim-test" },
     run = ":UpdateRemotePlugins"
   },
+  -- {
+  --   "nvim-neotest/neotest",
+  --    requires = {
+  --     "nvim-lua/plenary.nvim",
+  --     "nvim-treesitter/nvim-treesitter",
+  --     "antoinemadec/FixCursorHold.nvim"
+  --   }
+  -- },
   {
     "mtth/scratch.vim"
   }, {
