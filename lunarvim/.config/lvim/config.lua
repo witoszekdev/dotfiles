@@ -1,6 +1,11 @@
 -- general
 lvim.log.level = "warn"
-lvim.format_on_save = true
+lvim.format_on_save = {
+  pattern = "*",
+  timeout = 4000,
+  filter = require("lvim.lsp.handlers").format_filter,
+}
+
 lvim.colorscheme = "gruvbox"
 vim.opt.background = "dark"
 vim.g.gruvbox_contrast_dark = "hard"
@@ -13,8 +18,6 @@ if os.getenv("COLORSCHEME") == 'light' or vim.g.colorscheme == 'light' then
   lvim.colorscheme = "github_light"
   vim.o.background = "light"
 end
-
-print(vim.g.colorscheme)
 
 -- Additional Plugins
 -- Configuration syntax: https://github.com/wbthomason/packer.nvim#the-startup-function
@@ -306,6 +309,10 @@ lvim.plugins = {
   {
     "SidOfc/mkdx"
   },
+  {
+    "mracos/mermaid.vim",
+    ft = { "mermaid" }
+  }
 }
 
 -- keymappings [view all the defaults by pressing <leader>Lk]
@@ -398,6 +405,7 @@ lvim.builtin.which_key.mappings["p"] = {
   ss = { "<cmd>SessionManager load_session<CR>", "list session" },
   sd = { "<cmd>SessionManager delete_session<CR>", "delete session" },
   O = { "<cmd>SymbolsOutline", "document outline" },
+  d = { function() require("notify").dismiss() end, "Dismiss notifications" }
 }
 
 lvim.builtin.which_key.mappings["m"] = {
@@ -483,6 +491,13 @@ lvim.builtin.which_key.mappings["bP"] = {
   "<cmd>CopyPathLine<CR>", "Copy current file path + linenm"
 }
 
+vim.api.nvim_create_user_command("SetUsLayout", "silent set keymap=''", {
+  nargs = 0, desc = "Set keyboard layout to US"
+})
+vim.api.nvim_create_user_command("SetPlLayout", "silent set keymap=polish-slash_utf-8", {
+  nargs = 0, desc = "Set keyboard layout to PL"
+})
+
 vim.cmd([[
   " Fugitive
   let g:fugitive_pty = 0 " Fix for Fugitve + lint-staged
@@ -548,12 +563,11 @@ end
 lvim.builtin.dap.active = true
 
 -- notification
-lvim.builtin.notify.active = true
+lvim.builtin.notify.active = false
 lvim.builtin.notify.opts.stages = "fade_in_slide_out"
 
 -- nvimtree
 lvim.builtin.nvimtree.setup.view.side = "left"
-lvim.builtin.nvimtree.show_icons.git = 0
 local customFilters = vim.list_extend({
   ".undodir",
   ".DS_Store",
@@ -774,6 +788,8 @@ vim.lsp.handlers["textDocument/definition"] = vim.lsp.with(
   loclist = true
 }
 )
+
+require 'lspconfig'.tailwindcss.setup {}
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 -- vim.api.nvim_create_autocmd("BufEnter", {

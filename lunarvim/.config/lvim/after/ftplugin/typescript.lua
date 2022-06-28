@@ -18,3 +18,9 @@ local code_actions = require "lvim.lsp.null-ls.code_actions"
 code_actions.setup {
   { name = "eslint" }
 }
+
+require 'lspconfig'.graphql.setup {
+  filetypes = { "graphql", "typescriptreact", "javascriptreact", "typescript" }
+}
+
+require 'lspconfig'.tailwindcss.setup {}
