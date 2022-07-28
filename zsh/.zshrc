@@ -163,6 +163,9 @@ export PYTHONPATH=`brew --prefix`/lib/python3.9/site-packages
 export PATH="/usr/local/opt/coreutils/libexec/gnubin:${PATH}"
 export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:${MANPATH}"
 
+# Go
+export GOPATH=/usr/local/bin
+
 eval "$(direnv hook zsh)"
 
 [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
