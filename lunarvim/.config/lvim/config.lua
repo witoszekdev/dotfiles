@@ -1,5 +1,6 @@
 -- general
 lvim.log.level = "warn"
+-- lvim.format_on_save = false
 lvim.format_on_save = {
   pattern = "*",
   timeout = 4000,
@@ -23,7 +24,26 @@ end
 -- Configuration syntax: https://github.com/wbthomason/packer.nvim#the-startup-function
 lvim.plugins = {
   -- theme
-  "ellisonleao/gruvbox.nvim",
+  {
+    "ellisonleao/gruvbox.nvim",
+    config = function()
+      require("gruvbox").setup({
+        undercurl = true,
+        underline = true,
+        bold = true,
+        italic = true,
+        strikethrough = true,
+        invert_selection = false,
+        invert_signs = false,
+        invert_tabline = false,
+        invert_intend_guides = false,
+        inverse = true, -- invert background for search, diffs, statuslines and errors
+        contrast = "hard", -- can be "hard", "soft" or empty string
+        overrides = {},
+      })
+      vim.cmd("colorscheme gruvbox")
+    end
+  },
   "projekt0n/github-nvim-theme", -- for light theme
   {
     "lukas-reineke/indent-blankline.nvim",
@@ -216,6 +236,9 @@ lvim.plugins = {
   },
   {
     "Vimjas/vim-python-pep8-indent"
+  },
+  {
+    "jxnblk/vim-mdx-js"
   },
   -- misc
   {
@@ -588,6 +611,10 @@ lvim.builtin.nvimtree.setup.actions.change_dir.restrict_above_cwd = false
 lvim.builtin.nvimtree.setup.actions.change_dir.enable = false
 lvim.builtin.nvimtree.setup.disable_netrw = false
 
+lvim.builtin.nvimtree.setup.respect_buf_cwd = true
+lvim.builtin.nvimtree.setup.update_cwd = false
+lvim.builtin.nvimtree.setup.update_focused_file = { enable = false, update_cwd = false }
+
 -- treesitter
 lvim.builtin.treesitter.ensure_installed = {
   "bash",
@@ -797,7 +824,8 @@ vim.lsp.handlers["textDocument/definition"] = vim.lsp.with(
 }
 )
 
-require 'lspconfig'.tailwindcss.setup {}
+-- require 'lspconfig'.tailwindcss.setup {}
+-- require 'lspconfig'.eslint.setup {}
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 -- vim.api.nvim_create_autocmd("BufEnter", {
