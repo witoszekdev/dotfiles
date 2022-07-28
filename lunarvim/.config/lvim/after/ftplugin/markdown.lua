@@ -13,3 +13,10 @@ formatters.setup {
 --     name = "proselint"
 --   }
 -- }
+
+-- https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md
+-- diagnostics = linters in lunarvim
+local linters = require "lvim.lsp.null-ls.linters"
+linters.setup {
+  { name = "alex" }
+}
