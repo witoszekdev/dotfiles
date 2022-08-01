@@ -64,3 +64,6 @@
 	allowed = wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
 [pull]
 	default = current
+	rebase = true
+[rebase]
+	autoStash = true
