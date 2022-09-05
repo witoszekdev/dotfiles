@@ -32,3 +32,6 @@ alias z='zoxide'
 
 # open vim as server
 alias svim='nvim --listen /tmp/nvimsocket'
+
+# kitty ssh
+alias s="kitty +kitten ssh"
