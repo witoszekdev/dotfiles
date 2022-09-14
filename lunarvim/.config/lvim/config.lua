@@ -10,13 +10,14 @@ lvim.format_on_save = {
 lvim.colorscheme = "gruvbox"
 vim.opt.background = "dark"
 vim.g.gruvbox_contrast_dark = "hard"
+vim.g.gruvbox_contrast_light = "hard"
 vim.opt.clipboard = ""
 vim.opt.mouse = "n"
 vim.opt.splitbelow = false
 vim.opt.relativenumber = true
 
 if os.getenv("COLORSCHEME") == 'light' or vim.g.colorscheme == 'light' then
-  lvim.colorscheme = "github_light"
+  -- lvim.colorscheme = "github_light"
   vim.o.background = "light"
 end
 
@@ -824,7 +825,7 @@ vim.lsp.handlers["textDocument/definition"] = vim.lsp.with(
 }
 )
 
--- require 'lspconfig'.tailwindcss.setup {}
+require 'lspconfig'.tailwindcss.setup {}
 -- require 'lspconfig'.eslint.setup {}
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
