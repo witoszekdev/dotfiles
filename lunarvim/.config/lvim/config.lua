@@ -3,7 +3,7 @@ lvim.log.level = "warn"
 -- lvim.format_on_save = false
 lvim.format_on_save = {
   pattern = "*",
-  timeout = 4000,
+  timeout = 1000,
   filter = require("lvim.lsp.handlers").format_filter,
 }
 
