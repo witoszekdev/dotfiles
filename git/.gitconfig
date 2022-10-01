@@ -7,9 +7,10 @@
 	pager = delta
 	excludeFile = ~/.gitignore
 [push]
-	default = simple
+	default = current
 [commit]
-	gpgsign = true
+  ; temp fix
+	gpgsign = false
 [gpg]
 	program = /usr/local/MacGPG2/bin/gpg2
 [credential]

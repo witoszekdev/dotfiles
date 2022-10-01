@@ -15,6 +15,9 @@ vim.opt.clipboard = ""
 vim.opt.mouse = "n"
 vim.opt.splitbelow = false
 vim.opt.relativenumber = true
+vim.g.markdown_fenced_languages = {
+  "ts=typescript"
+}
 
 -- filetype.lua
 vim.g.do_filetype_lua = 1
@@ -336,6 +339,7 @@ lvim.plugins = {
   },
   {
     "akinsho/git-conflict.nvim",
+    tag = "*",
     config = function()
       require("git-conflict").setup({
         default_mappings = true
@@ -723,6 +727,8 @@ lvim.builtin.telescope.defaults.layout_config = {
 -- lvim.builtin.telescope.defaults.sorting_strategy = "ascending"
 -- lvim.builtin.telescope.defaults.use_less = true
 -- lvim.builtin.telescope.defaults.path_display = "smart"
+
+lvim.builtin.luasnip.sources.friendly_snippets = true
 
 local components = require("lvim.core.lualine.components")
 local filenameComponent = {
