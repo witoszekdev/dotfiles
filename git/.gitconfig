@@ -1,6 +1,7 @@
 [user]
 	email = jonatanwitoszek@gmail.com
 	name = Jonatan Witoszek
+	signingkey = 8C1AF7C8FFD1234511E3173AD35056EA9CCE8472
 [core]
 	; editor = nvr --remote-wait-silent
   editor=lvim
@@ -9,10 +10,10 @@
 [push]
 	default = current
 [commit]
-  ; temp fix
-	gpgsign = false
+  gpsign = true
+	gpgsign = true
 [gpg]
-	program = /usr/local/MacGPG2/bin/gpg2
+	program = gpg
 [credential]
 	helper = osxkeychain
 [color "status"]
