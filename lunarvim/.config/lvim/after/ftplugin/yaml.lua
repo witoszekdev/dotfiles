@@ -1,5 +1,5 @@
-local diagnostics = require "lvim.lsp.null-ls.diagnostics"
+local linters = require "lvim.lsp.null-ls.linters"
 
-diagnostics.setup {
+linters.setup {
   { name = "actionlint" }
 }
