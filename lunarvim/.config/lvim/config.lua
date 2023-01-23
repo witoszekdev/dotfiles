@@ -20,8 +20,8 @@ vim.g.markdown_fenced_languages = {
 }
 
 -- filetype.lua
-vim.g.do_filetype_lua = 1
-vim.g.did_load_filetypes = 0
+-- vim.g.do_filetype_lua = 1
+-- vim.g.did_load_filetypes = 0
 
 if os.getenv("COLORSCHEME") == 'light' or vim.g.colorscheme == 'light' then
   -- lvim.colorscheme = "github_light"
@@ -53,18 +53,6 @@ lvim.plugins = {
     end
   },
   "projekt0n/github-nvim-theme", -- for light theme
-  {
-    "lukas-reineke/indent-blankline.nvim",
-    event = "BufRead",
-    config = function()
-      vim.g.indentLine_enabled = 1
-      vim.g.indent_blankline_char_list = { '|', '¦', '┆', '┊' }
-      vim.g.indent_blankline_filetype_exclude = { "help", "terminal", "dashboard", "alpha" }
-      vim.g.indent_blankline_buftype_exclude = { "terminal" }
-      vim.g.indent_blankline_show_trailing_blankline_indent = false
-      vim.g.indent_blankline_show_first_indent_level = false
-    end
-  },
   -- git
   "tpope/vim-fugitive",
   "tpope/vim-rhubarb",
@@ -80,7 +68,7 @@ lvim.plugins = {
   "ThePrimeagen/harpoon",
   {
     'sindrets/diffview.nvim',
-    requires = 'nvim-lua/plenary.nvim',
+    dependencies = 'nvim-lua/plenary.nvim',
     config = function()
       require("diffview").setup {
         use_icons = true
@@ -100,7 +88,7 @@ lvim.plugins = {
   {
     "kevinhwang91/nvim-bqf",
     event = { "BufRead", "BufNew" },
-    requires = {
+    dependencies = {
       { "nvim-treesitter/nvim-treesitter" }
     },
     config = function()
@@ -112,13 +100,13 @@ lvim.plugins = {
   },
   {
     "junegunn/fzf",
-    run = function()
+    build = function()
       vim.fn['fzf#install']()
     end
   },
   {
     "nvim-telescope/telescope-live-grep-args.nvim",
-    requires = {
+    dependencies = {
       { "nvim-telescope/telescope.nvim" }
     },
     config = function()
@@ -127,7 +115,7 @@ lvim.plugins = {
   },
   {
     "nvim-telescope/telescope-fzy-native.nvim",
-    requires = {
+    dependencies = {
       { "nvim-telescope/telescope.nvim" }
     },
     config = function()
@@ -136,10 +124,10 @@ lvim.plugins = {
   },
   {
     "nvim-telescope/telescope-frecency.nvim",
-    requires = {
-      { "nvim-telescoe/telescope.nvim" },
+    dependencies = {
+      { "nvim-telescope/telescope.nvim" },
       { "tami5/sqlite.lua" },
-      { "kyazdani42/nvim-web-devicons" },
+      { "nvim-tree/nvim-web-devicons" },
     },
     config = function()
       require("telescope").load_extension("frecency")
@@ -147,8 +135,8 @@ lvim.plugins = {
   },
   {
     "nvim-telescope/telescope-ui-select.nvim",
-    requires = {
-      "nvim-telescoe/telescope.nvim"
+    dependencies = {
+      "nvim-telescope/telescope.nvim"
     },
     config = function()
       require("telescope").load_extension("ui-select")
@@ -191,13 +179,13 @@ lvim.plugins = {
   },
   {
     "nvim-treesitter/nvim-treesitter-textobjects",
-    requires = {
+    dependencies = {
       "nvim-treesitter/nvim-treesitter"
     },
   },
   {
     "ThePrimeagen/refactoring.nvim",
-    requires = {
+    dependencies = {
       { "nvim-lua/plenary.nvim" },
       { "nvim-treesitter/nvim-treesitter" }
     },
@@ -212,29 +200,33 @@ lvim.plugins = {
     config = function()
       vim.g.matchup_matchparen_offscreen = { method = "popup" }
     end,
-    requires = {
+    dependencies = {
       "nvim-treesitter/nvim-treesitter"
     }
   },
   {
     "windwp/nvim-ts-autotag",
-    requires = {
+    dependencies = {
       "nvim-treesitter/nvim-treesitter"
     }
   },
-  { "p00f/nvim-ts-rainbow",
-    requires = {
+  {
+    "p00f/nvim-ts-rainbow",
+    dependencies = {
       "nvim-treesitter/nvim-treesitter"
     },
     config = function()
       require("nvim-treesitter.configs").setup {
         rainbow = {
           enable = true,
-          extended_mode = true,
+          -- extended_mode = true,
           max_file_lines = 10000
         }
       }
     end
+  },
+  {
+    "gpanders/editorconfig.nvim"
   },
   {
     "ray-x/lsp_signature.nvim",
@@ -250,13 +242,14 @@ lvim.plugins = {
   },
   -- misc
   {
-    "mfussenegger/nvim-ts-hint-textobject" -- expand selection (ctrl + s)
+    "witoszekdev/nvim-treehopper", -- expand selection (ctrl + s),
+    branch = "fix-missing-filetype"
   },
   "folke/todo-comments.nvim",
   {
     "iamcco/markdown-preview.nvim",
-    run = "cd app && npm install",
-    setup = function()
+    build = "cd app && npm install",
+    init = function()
       vim.g.mkdp_filetypes = { "markdown" }
     end,
     ft = { "markdown" },
@@ -313,33 +306,69 @@ lvim.plugins = {
     ft = { "javascript", "javascriptreact", "typescript", "typescriptreact", "css", "sass", "html" }
   },
   {
-    "rcarriga/vim-ultest",
-    requires = { "vim-test/vim-test" },
-    run = ":UpdateRemotePlugins"
-  },
-  -- {
-  --   "nvim-neotest/neotest",
-  --    requires = {
-  --     "nvim-lua/plenary.nvim",
-  --     "nvim-treesitter/nvim-treesitter",
-  --     "antoinemadec/FixCursorHold.nvim"
-  --   }
-  -- },
-  {
-    "mtth/scratch.vim"
-  }, {
-    'nvim-orgmode/orgmode',
-    requires = { "nvim-treesitter/nvim-treesitter" },
+    "nvim-neotest/neotest",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+      -- test runners
+      "haydenmeade/neotest-jest",
+      "marilari88/neotest-vitest",
+      "nvim-neotest/neotest-python"
+    },
     config = function()
-      require('orgmode').setup_ts_grammar()
-      require('orgmode').setup {
-        org_agenda_files = { "~/org/**/*" }
-      }
+      require("neotest").setup({
+        adapters = {
+          require("neotest-jest"),
+          require("neotest-vitest"),
+          require("neotest-python"),
+        },
+        consumers = {
+
+        },
+        summary = {
+          animated = true,
+          enabled = true,
+          expand_erros = true,
+          follow = true,
+          mappings = {
+            attach = "a",
+            clear_marked = "M",
+            clear_target = "T",
+            debug = "d",
+            debug_marked = "D",
+            expand = { "<CR>", "<2-LeftMouse>" },
+            expand_all = "e",
+            jumpto = "i",
+            mark = "m",
+            next_failed = "J",
+            output = "o",
+            prev_failed = "K",
+            run = "t",
+            run_marked = "T",
+            short = "O",
+            stop = "h",
+            target = "t"
+          },
+        }
+      })
     end
   },
   {
+    "mtth/scratch.vim"
+  },
+  -- {
+  --   'nvim-orgmode/orgmode',
+  --   dependencies = { "nvim-treesitter/nvim-treesitter" },
+  --   config = function()
+  --     require('orgmode').setup_ts_grammar()
+  --     require('orgmode').setup {
+  --       org_agenda_files = { "~/org/**/*" }
+  --     }
+  --   end
+  -- },
+  {
     "akinsho/git-conflict.nvim",
-    tag = "*",
+    version = "*",
     config = function()
       require("git-conflict").setup({
         default_mappings = true
@@ -355,6 +384,27 @@ lvim.plugins = {
   }
 }
 
+-- lvim.plugins = {
+--   {
+--     "kevinhwang91/nvim-bqf",
+--     event = { "BufRead", "BufNew" },
+--     dependencies = {
+--       { "nvim-treesitter/nvim-treesitter" }
+--     },
+--     config = function()
+--       require('bqf').setup {
+--         auto_enable = true,
+--         auto_resize_height = true,
+--       }
+--     end
+--   },
+--   {
+--     "junegunn/fzf",
+--     build = function()
+--       vim.fn['fzf#install']()
+--     end
+--   },
+-- }
 -- keymappings [view all the defaults by pressing <leader>Lk]
 -- Docs: https://www.lunarvim.org/configuration/02-keybindings.html#general-bindings
 lvim.leader = "space"
@@ -445,7 +495,6 @@ lvim.builtin.which_key.mappings["p"] = {
   ss = { "<cmd>SessionManager load_session<CR>", "list session" },
   sd = { "<cmd>SessionManager delete_session<CR>", "delete session" },
   O = { "<cmd>SymbolsOutline", "document outline" },
-  d = { function() require("notify").dismiss() end, "Dismiss notifications" }
 }
 
 lvim.builtin.which_key.mappings["m"] = {
@@ -466,22 +515,6 @@ lvim.builtin.which_key.mappings["m"] = {
   },
 }
 
-vim.keymap.set("n", "]r", "<Plug>(ultest-next-fail)")
-vim.keymap.set("n", "[r", "<Plug>(ultest-prev-fail)")
-
-lvim.builtin.which_key.mappings["t"] = {
-  name = "Tests",
-  T = { "<Plug>(ultest-run-file)", "run all in file" },
-  t = { "<Plug>(ultest-run-nearest)", "run nearest" },
-  r = { "<Plug>(ultest-run-last)", "run last test" },
-  o = { "<Plug>(ultest-summary-jump)", "show summary" },
-  l = { "<Plug>(ultest-output-show)", "show log" },
-  i = { "<Plug>(ultest-debug-nearest)", "debug nearest" },
-  I = { "<Plug>(ultest-debug)", "debug file" },
-  h = { "<Plug>(ultest-stop-nearest)", "stop nearest test" },
-  H = { "<Plug>(ultest-stop-file)", "stop tests in file" }
-}
-
 vim.api.nvim_set_keymap("n", "]h", '', {
   noremap = true,
   callback = function()
@@ -495,6 +528,35 @@ vim.api.nvim_set_keymap("n", "[h", '', {
     require("harpoon.ui").nav_prev()
   end,
   desc = "Go to previous harpoon file"
+})
+
+lvim.builtin.which_key.mappings["t"] = {
+  name = "Tests",
+  T = { function() require("neotest").run.run(vim.fn.expand("%")) end, "run all tests in file" },
+  t = { function() require("neotest").run.run() end, "run nearest" },
+  a = { function() require("neotest").run.attach() end, "attach to nearest test" },
+  d = { function() require("neotest").run.run({ strategy = "dap" }) end, "run nearest + debug" },
+  h = { function() require("neotest").run.stop() end, "stop nearest test" },
+  H = { function() require("neotest").run.run(vim.fn.expand("%")) end, "stop all test in file" },
+  o = { function() require("neotest").output.open({ enter = true }) end, "show test output" },
+  s = { function() require("neotest").summary.toggle() end, "toggle show summary" },
+  r = { function() require("neotest").run.run_last() end, "run last test" },
+  l = { function() require("neotest").output_panel.toggle() end, "show output panel" },
+}
+
+vim.api.nvim_set_keymap("n", "]r", '', {
+  noremap = true,
+  callback = function()
+    require("neotest").jump.next({ status = "failed" })
+  end,
+  desc = "Go to next failed test"
+})
+vim.api.nvim_set_keymap("n", "[r", '', {
+  noremap = true,
+  callback = function()
+    require("neotest").jump.prev({ status = "failed" })
+  end,
+  desc = "Go to prev failed test"
 })
 
 lvim.builtin.which_key.mappings["r"] = {
@@ -539,20 +601,20 @@ vim.api.nvim_create_user_command("SetPlLayout", "silent set keymap=polish-slash_
 })
 
 vim.cmd([[
-  " Fugitive
-  let g:fugitive_pty = 0 " Fix for Fugitve + lint-staged
-  nnoremap <leader>gh :GV<CR>
-  nnoremap <leader>gf :GV!<CR>
-  nnoremap <leader>gfl :0Gllog<CR>
-  nnoremap <leader>gs :Git<CR>
-  command! -nargs=0 Gp :Git push
-  command! -nargs=0 Gpf :Git push --force-with-lease
-  command! -nargs=1 Gco :Git checkout <f-args>
-  command! -nargs=1 Gcb :Git checkout -b <f-args>
-  command! -nargs=0 Gl :Git autopull
+" Fugitive
+let g:fugitive_pty = 0 " Fix for Fugitve + lint-staged
+nnoremap <leader>gh :GV<CR>
+nnoremap <leader>gf :GV!<CR>
+nnoremap <leader>gfl :0Gllog<CR>
+nnoremap <leader>gs :Git<CR>
+command! -nargs=0 Gp :Git push
+command! -nargs=0 Gpf :Git push --force-with-lease
+command! -nargs=1 Gco :Git checkout <f-args>
+command! -nargs=1 Gcb :Git checkout -b <f-args>
+command! -nargs=0 Gl :Git autopull
 
-  " Use :close instead of :q
-  cabbrev q <c-r>=(getcmdtype()==':' && getcmdpos()==1 ? 'close' : 'q')<CR>
+" Use :close instead of :q
+cabbrev q <c-r>=(getcmdtype()==':' && getcmdpos()==1 ? 'close' : 'q')<CR>
 ]])
 
 -- Change Telescope navigation to use j and k for navigation and n and p for history in both input and normal mode.
@@ -603,8 +665,8 @@ end
 lvim.builtin.dap.active = true
 
 -- notification
-lvim.builtin.notify.active = false
-lvim.builtin.notify.opts.stages = "fade_in_slide_out"
+-- lvim.builtin.notify.active = false
+-- lvim.builtin.notify.opts.stages = "fade_in_slide_out"
 
 -- nvimtree
 lvim.builtin.nvimtree.setup.view.side = "left"
@@ -677,7 +739,7 @@ lvim.builtin.treesitter.incremental_selection = {
 
 -- telescope
 lvim.builtin.project.active = true
-lvim.builtin.notify.active = true
+-- lvim.builtin.notify.active = true
 lvim.builtin.telescope.extensions.fzf = true
 lvim.builtin.telescope.extensions["ui-select"] = {
   require("telescope.themes").get_dropdown {}
@@ -835,8 +897,7 @@ vim.lsp.handlers["textDocument/definition"] = vim.lsp.with(
 }
 )
 
-require 'lspconfig'.tailwindcss.setup {}
--- require 'lspconfig'.eslint.setup {}
+-- require 'lspconfig'.tailwindcss.setup {}
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 -- vim.api.nvim_create_autocmd("BufEnter", {
