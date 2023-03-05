@@ -6,18 +6,18 @@ formatters.setup {
   -- { name = "prettier" }
 }
 
-local linters = require "lvim.lsp.null-ls.linters"
-linters.setup {
-  { name = 'eslint_d' }
-  -- { name = "eslint" }
-}
+-- local linters = require "lvim.lsp.null-ls.linters"
+-- linters.setup {
+--   -- { name = 'eslint_d' }
+--   -- { name = "eslint" }
+-- }
 
-local code_actions = require "lvim.lsp.null-ls.code_actions"
-code_actions.setup {
-  { name = "refactoring" },
-  { name = 'eslint_d' },
-  -- { name = "eslint" }
-}
+-- local code_actions = require "lvim.lsp.null-ls.code_actions"
+-- code_actions.setup {
+--   { name = "refactoring" },
+--   -- { name = 'eslint_d' },
+--   -- { name = "eslint" }
+-- }
 
 require 'lspconfig'.graphql.setup {
   filetypes = { "graphql", "typescriptreact", "javascriptreact", "typescript" }
@@ -33,8 +33,53 @@ require 'lspconfig'.tsserver.setup {
   end,
 }
 
--- require 'lspconfig'.eslint.setup {
---   format = true
+require 'lspconfig'.eslint.setup {
+  -- format = true,
+  settings = {
+    codeActionOnSave = {
+      enable = true,
+      mode = "all"
+    },
+    format = true
+  },
+  conifg = {
+    codeActionOnSave = {
+      enable = true,
+      mode = "all"
+    },
+    format = true
+  }
+}
+
+-- local dap = require("dap")
+
+require 'mason-nvim-dap'.setup_handlers {}
+
+-- dap.adapters.node2 = {
+--   type = "executable",
+--   command = "node",
+--   args = {os.getenv("HOME") .. ""},
+-- }
+-- dap.configurations.typescript = {
+--   {
+--     name = "Launch",
+--     type = "node2",
+--     request = "launch",
+--     program = "${workspaceFolder}/${file}",
+--     cwd = vim.fn.getcwd(),
+--     sourceMaps = true,
+--     protocol = "inspector",
+--     console = "integratedTerminal",
+--   },
+--   {
+--     name = 'Attach to process',
+--     type = 'node2',
+--     request = 'attach',
+--     processId = require 'dap.utils'.pick_process,
+--   }
+-- }
+
+-- require 'lspconfig'.prettierd.setup {
 -- }
 
 -- require 'lspconfig'.graphql.setup {
@@ -46,3 +91,5 @@ require 'lspconfig'.tsserver.setup {
 -- }
 
 -- require 'lspconfig'.tailwindcss.setup {}
+--
+--

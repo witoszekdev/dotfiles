@@ -9,6 +9,7 @@
 	excludeFile = ~/.gitignore
 [push]
 	default = current
+	autoSetupRemote = true
 [commit]
   gpsign = true
 	gpgsign = true
@@ -69,3 +70,6 @@
 	rebase = true
 [rebase]
 	autoStash = true
+[merge "npm-merge-driver"]
+	name = automatically merge npm lockfiles
+	driver = npx npm-merge-driver merge %A %O %B %P

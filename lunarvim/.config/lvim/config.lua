@@ -1,11 +1,14 @@
 -- general
 lvim.log.level = "warn"
+local formatTimeout = 4000
 -- lvim.format_on_save = false
 lvim.format_on_save = {
+  enabled = true,
   pattern = "*",
-  timeout = 1000,
+  timeout = formatTimeout,
   filter = require("lvim.lsp.handlers").format_filter,
 }
+lvim.builtin.dap.active = true
 
 lvim.colorscheme = "gruvbox"
 vim.opt.background = "dark"
@@ -45,7 +48,7 @@ lvim.plugins = {
         invert_signs = false,
         invert_tabline = false,
         invert_intend_guides = false,
-        inverse = true, -- invert background for search, diffs, statuslines and errors
+        inverse = true,    -- invert background for search, diffs, statuslines and errors
         contrast = "hard", -- can be "hard", "soft" or empty string
         overrides = {},
       })
@@ -156,6 +159,65 @@ lvim.plugins = {
   },
   -- lsp addons
   "tpope/vim-surround",
+  {
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    config = function()
+      require("copilot").setup({
+        panel = {
+          enabled = true,
+          auto_refresh = true,
+          layout = {
+            position = "right",
+            ration = 0.4
+          }
+        }
+      })
+    end
+  },
+  {
+    "zbirenbaum/copilot-cmp",
+    dependencies = {
+      "zbirenbaum/copilot.lua"
+    },
+    config = function()
+      require("copilot_cmp").setup()
+    end
+  },
+  {
+    "folke/neodev.nvim",
+    config = function()
+      require("neodev").setup({
+        library = {
+          plugins = { "neotest" },
+          types = true,
+        }
+      })
+    end
+  },
+  {
+    "jay-babu/mason-nvim-dap.nvim",
+    dependencies = {
+      "mfussenegger/nvim-dap",
+      "williamboman/mason.nvim"
+    },
+    config = function()
+      require("mason-nvim-dap").setup({
+        automatic_setup = {
+          configurations = function(default)
+            table.insert(default["node2"], {
+              name = "Attach Next.js",
+              type = "node2",
+              request = "attach",
+              address = "127.0.0.1",
+              port = 9230
+            })
+            return default;
+          end
+        }
+      })
+    end
+  },
   {
     "simrat39/symbols-outline.nvim"
   },
@@ -318,7 +380,7 @@ lvim.plugins = {
     config = function()
       require("neotest").setup({
         adapters = {
-          require("neotest-jest"),
+          -- require("neotest-jest"),
           require("neotest-vitest"),
           require("neotest-python"),
         },
@@ -381,6 +443,17 @@ lvim.plugins = {
   {
     "mracos/mermaid.vim",
     ft = { "mermaid" }
+  },
+  {
+    'pwntester/octo.nvim',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'nvim-telescope/telescope.nvim',
+      'nvim-tree/nvim-web-devicons',
+    },
+    config = function()
+      require "octo".setup()
+    end
   }
 }
 
@@ -415,6 +488,8 @@ lvim.keys.normal_mode["<leader>qa"] = ":BDelete hidden<CR>"
 lvim.keys.normal_mode["<C-p>"] = ":Telescope find_files<CR>"
 
 lvim.keys.visual_mode["<leader>y"] = '"+y'
+
+vim.keymap.set('i', '<C-A>', '<Plug>copilot#Accept("<CR>")', { noremap = true })
 
 lvim.builtin.which_key.mappings["S"] = {
   "<cmd>lua require('spectre').open()<CR>", "open spectre"
@@ -474,15 +549,15 @@ lvim.builtin.which_key.mappings["g"] = {
   }
 }
 
-lvim.builtin.which_key.mappings["P"] = {
-  name = "Packer",
-  c = { "<cmd>PackerCompile<cr>", "Compile" },
-  i = { "<cmd>PackerInstall<cr>", "Install" },
-  r = { "<cmd>lua require('lvim.plugin-loader').recompile()<cr>", "Re-compile" },
-  s = { "<cmd>PackerSync<cr>", "Sync" },
-  S = { "<cmd>PackerStatus<cr>", "Status" },
-  u = { "<cmd>PackerUpdate<cr>", "Update" },
-}
+-- lvim.builtin.which_key.mappings["P"] = {
+--   name = "Packer",
+--   c = { "<cmd>PackerCompile<cr>", "Compile" },
+--   i = { "<cmd>PackerInstall<cr>", "Install" },
+--   r = { "<cmd>lua require('lvim.plugin-loader').recompile()<cr>", "Re-compile" },
+--   s = { "<cmd>PackerSync<cr>", "Sync" },
+--   S = { "<cmd>PackerStatus<cr>", "Status" },
+--   u = { "<cmd>PackerUpdate<cr>", "Update" },
+-- }
 
 lvim.builtin.which_key.mappings["p"] = {
   name = "Project",
@@ -573,6 +648,13 @@ lvim.builtin.which_key.vmappings["r"] = {
   f = { function() require("refactoring").refactor("Extract Function To File") end, "Extract function to file" },
   v = { function() require("refactoring").refactor("Extract Variable") end, "Extract variable" },
   i = { function() require('refactoring').refactor('Inline Variable') end, "Inline variable" },
+}
+
+lvim.builtin.which_key.mappings["l"]["f"] = {
+  function()
+    require("lvim.lsp.utils").format { timeout_ms = formatTimeout }
+  end,
+  "Format",
 }
 
 vim.api.nvim_set_keymap("n", "<Esc>", "<cmd>noh<CR>", { noremap = true })
@@ -887,14 +969,14 @@ end
 local on_references = vim.lsp.handlers["textDocument/references"]
 vim.lsp.handlers["textDocument/references"] = vim.lsp.with(
   on_references, {
-  loclist = true,
-}
+    loclist = true,
+  }
 )
 local on_definition = vim.lsp.handlers["textDocument/definition"]
 vim.lsp.handlers["textDocument/definition"] = vim.lsp.with(
   on_definition, {
-  loclist = true
-}
+    loclist = true
+  }
 )
 
 -- require 'lspconfig'.tailwindcss.setup {}
