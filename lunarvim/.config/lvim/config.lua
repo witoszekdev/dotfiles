@@ -157,6 +157,10 @@ lvim.plugins = {
       require('spectre').setup()
     end
   },
+  -- snippets
+  {
+    "avneesh0612/react-nextjs-snippets"
+  },
   -- lsp addons
   "tpope/vim-surround",
   {
@@ -164,6 +168,19 @@ lvim.plugins = {
     cmd = "Copilot",
     config = function()
       require("copilot").setup({
+        suggestion = {
+          enabled = true,
+          auto_trigger = true,
+          debounce = 75,
+          keymap = {
+            accept = "<M-l>",
+            accept_word = false,
+            accept_line = false,
+            next = "<M-]>",
+            prev = "<M-[>",
+            dismiss = "<C-]>",
+          },
+        },
         panel = {
           enabled = true,
           auto_refresh = true,
@@ -979,7 +996,15 @@ vim.lsp.handlers["textDocument/definition"] = vim.lsp.with(
   }
 )
 
+-- require 'lspconfig'.eslint.setup {}
 -- require 'lspconfig'.tailwindcss.setup {}
+-- local formatters = require "lvim.lsp.null-ls.formatters"
+-- formatters.setup {
+--   { name = 'eslint_d' },
+--   { name = 'prettierd' },
+--   -- { name = "eslint" },
+--   -- { name = "prettier" }
+-- }
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 -- vim.api.nvim_create_autocmd("BufEnter", {
