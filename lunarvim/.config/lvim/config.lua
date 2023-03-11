@@ -1,6 +1,6 @@
 -- general
 lvim.log.level = "warn"
-local formatTimeout = 4000
+local formatTimeout = 2000
 -- lvim.format_on_save = false
 lvim.format_on_save = {
   enabled = true,
@@ -59,14 +59,14 @@ lvim.plugins = {
   -- git
   "tpope/vim-fugitive",
   "tpope/vim-rhubarb",
-  {
-    "folke/trouble.nvim",
-    config = function()
-      require("trouble").setup {
-        use_diagnostic_signs = true,
-      }
-    end
-  },
+  -- {
+  --   "folke/trouble.nvim",
+  --   config = function()
+  --     require("trouble").setup {
+  --       use_diagnostic_signs = true,
+  --     }
+  --   end
+  -- },
   -- navigation
   "ThePrimeagen/harpoon",
   {
@@ -108,6 +108,68 @@ lvim.plugins = {
     end
   },
   {
+    "ggandor/leap.nvim", -- super duper fast motions (s + {n1}{n2})
+    -- S -> backwards
+    dependencies = {
+      "tpope/vim-repeat"
+    },
+    config = function()
+      require("leap").add_default_mappings()
+    end
+  },
+  {
+    "folke/zen-mode.nvim",
+    dependencies = {
+      "folke/twilight.nvim"
+    },
+    config = function()
+      require("zen-mode").setup {
+        plugins = {
+          options = {
+            enabled = true,
+            ruler = true,                -- disables the ruler text in the cmd line area
+            showcmd = true,              -- disables the command in the last line of the screen
+          },
+          twilight = { enabled = true }, -- enable to start Twilight when zen mode opens
+          kitty = {
+            enabled = true,
+            font = "+2", -- font size increment
+          },
+        }
+      }
+    end
+  },
+  {
+    "folke/twilight.nvim", -- zen mode (dim unused parts of code)
+    config = function()
+      require("twilight").setup()
+    end
+  },
+  {
+    "AckslD/nvim-neoclip.lua", -- register yanks
+    dependencies = {
+      { 'nvim-telescope/telescope.nvim' },
+      { 'kkharji/sqlite.lua',           module = 'sqlite' },
+    },
+    config = function()
+      require('neoclip').setup({
+        history = 1000,
+        enable_persistent_history = true,
+        length_limit = 1048576,
+        db_path = vim.fn.stdpath("data") .. "/databases/neoclip.sqlite3",
+      })
+      require("telescope").load_extension("neoclip")
+    end,
+  },
+  -- {
+  --   "karb94/neoscroll.nvim",
+  --   config = function()
+  --     require('neoscroll').setup({
+  --       performance_mode = true
+  --     })
+  --   end
+  -- },
+  {
     "nvim-telescope/telescope-live-grep-args.nvim",
     dependencies = {
       { "nvim-telescope/telescope.nvim" }
@@ -129,7 +191,7 @@ lvim.plugins = {
     "nvim-telescope/telescope-frecency.nvim",
     dependencies = {
       { "nvim-telescope/telescope.nvim" },
-      { "tami5/sqlite.lua" },
+      { "kkharji/sqlite.lua" },
       { "nvim-tree/nvim-web-devicons" },
     },
     config = function()
@@ -157,6 +219,16 @@ lvim.plugins = {
       require('spectre').setup()
     end
   },
+  {
+    "chrisgrieser/nvim-genghis", -- file utils
+    dependencies = "stevearc/dressing.nvim"
+  },
+  -- {
+  --   "beauwilliams/focus.nvim", -- easier window management
+  --   config = function()
+  --     require("focus").setup()
+  --   end
+  -- },
   -- snippets
   {
     "avneesh0612/react-nextjs-snippets"
@@ -202,6 +274,17 @@ lvim.plugins = {
     end
   },
   {
+    "jose-elias-alvarez/typescript.nvim",
+    dependencies = {
+      "jose-elias-alvarez/null-ls.nvim",
+    },
+    config = function()
+      require("null-ls").register({
+        require("typescript.extensions.null-ls.code-actions")
+      })
+    end
+  },
+  {
     "folke/neodev.nvim",
     config = function()
       require("neodev").setup({
@@ -213,7 +296,7 @@ lvim.plugins = {
     end
   },
   {
-    "jay-babu/mason-nvim-dap.nvim",
+    "jay-babu/mason-nvim-dap.nvim", -- auto configure DAP from mason
     dependencies = {
       "mfussenegger/nvim-dap",
       "williamboman/mason.nvim"
@@ -235,9 +318,7 @@ lvim.plugins = {
       })
     end
   },
-  {
-    "simrat39/symbols-outline.nvim"
-  },
+  -- "simrat39/symbols-outline.nvim",
   {
     "nvim-treesitter/nvim-treesitter-context",
     config = function()
@@ -274,7 +355,7 @@ lvim.plugins = {
     end
   },
   {
-    "andymass/vim-matchup",
+    "andymass/vim-matchup", -- language specific %
     event = "CursorMoved",
     config = function()
       vim.g.matchup_matchparen_offscreen = { method = "popup" }
@@ -304,9 +385,9 @@ lvim.plugins = {
       }
     end
   },
-  {
-    "gpanders/editorconfig.nvim"
-  },
+  "gpanders/editorconfig.nvim",
+  "Vimjas/vim-python-pep8-indent",
+  "jxnblk/vim-mdx-js",
   {
     "ray-x/lsp_signature.nvim",
     config = function()
@@ -314,17 +395,28 @@ lvim.plugins = {
     end
   },
   {
-    "Vimjas/vim-python-pep8-indent"
-  },
-  {
-    "jxnblk/vim-mdx-js"
+    'Wansmer/sibling-swap.nvim',
+    dependencies = { 'nvim-treesitter' },
+    config = function()
+      require('sibling-swap').setup({})
+    end,
   },
   -- misc
   {
     "witoszekdev/nvim-treehopper", -- expand selection (ctrl + s),
     branch = "fix-missing-filetype"
   },
-  "folke/todo-comments.nvim",
+  {
+    "folke/todo-comments.nvim",
+    dependencies = "nvim-lua/plenary.nvim",
+    config = function()
+      require("todo-comments").setup {
+        -- your configuration comes here
+        -- or leave it empty to use the default settings
+        -- refer to the configuration section below
+      }
+    end
+  },
   {
     "iamcco/markdown-preview.nvim",
     build = "cd app && npm install",
@@ -341,7 +433,7 @@ lvim.plugins = {
       require('nvim-projectconfig').setup()
     end
   },
-  { "tpope/vim-unimpaired" },
+  "tpope/vim-unimpaired",
   {
     "kazhala/close-buffers.nvim",
     config = function()
@@ -454,9 +546,7 @@ lvim.plugins = {
       })
     end
   },
-  {
-    "SidOfc/mkdx"
-  },
+  "SidOfc/mkdx",
   {
     "mracos/mermaid.vim",
     ft = { "mermaid" }
@@ -471,30 +561,22 @@ lvim.plugins = {
     config = function()
       require "octo".setup()
     end
+  },
+  {
+    "mrjones2014/legendary.nvim", -- search commands + which_key
+    dependencies = {
+      "kkharji/sqlite.lua",
+    },
+    config = function()
+      require("legendary").setup({
+        which_key = {
+          auto_register = true
+        }
+      })
+    end
   }
 }
 
--- lvim.plugins = {
---   {
---     "kevinhwang91/nvim-bqf",
---     event = { "BufRead", "BufNew" },
---     dependencies = {
---       { "nvim-treesitter/nvim-treesitter" }
---     },
---     config = function()
---       require('bqf').setup {
---         auto_enable = true,
---         auto_resize_height = true,
---       }
---     end
---   },
---   {
---     "junegunn/fzf",
---     build = function()
---       vim.fn['fzf#install']()
---     end
---   },
--- }
 -- keymappings [view all the defaults by pressing <leader>Lk]
 -- Docs: https://www.lunarvim.org/configuration/02-keybindings.html#general-bindings
 lvim.leader = "space"
@@ -587,6 +669,8 @@ lvim.builtin.which_key.mappings["p"] = {
   ss = { "<cmd>SessionManager load_session<CR>", "list session" },
   sd = { "<cmd>SessionManager delete_session<CR>", "delete session" },
   O = { "<cmd>SymbolsOutline", "document outline" },
+  t = { "<cmd>TodoTelescope<CR>", "todo list - telescope" },
+  T = { "<cmd>TodoQuickFix<CR>", "todo list - quickfix" },
 }
 
 lvim.builtin.which_key.mappings["m"] = {
@@ -666,6 +750,8 @@ lvim.builtin.which_key.vmappings["r"] = {
   v = { function() require("refactoring").refactor("Extract Variable") end, "Extract variable" },
   i = { function() require('refactoring').refactor('Inline Variable') end, "Inline variable" },
 }
+lvim.builtin.which_key.mappings["h"] = { function() require("telescope").extensions.neoclip.default() end,
+  "Yanks history" }
 
 lvim.builtin.which_key.mappings["l"]["f"] = {
   function()
