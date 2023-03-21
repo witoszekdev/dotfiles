@@ -481,6 +481,7 @@ lvim.plugins = {
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
+      "antoinemadec/FixCursorHold.nvim",
       -- test runners
       "haydenmeade/neotest-jest",
       "marilari88/neotest-vitest",
