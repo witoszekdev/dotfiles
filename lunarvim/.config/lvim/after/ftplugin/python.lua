@@ -8,3 +8,5 @@ local linters = require "lvim.lsp.null-ls.linters"
 linters.setup {
   { name = "flake8" }
 }
+
+require("lvim.lsp.manager").setup("pylsp")

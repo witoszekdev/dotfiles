@@ -20,7 +20,7 @@ linters.setup {
 -- }
 
 require 'lspconfig'.graphql.setup {
-  filetypes = { "graphql", "typescriptreact", "javascriptreact", "typescript" }
+  filetypes = { "graphql", "typescriptreact", "javascriptreact", "typescript", "javascript" }
 }
 
 -- require 'lspconfig'.denols.setup {}
@@ -33,7 +33,15 @@ require 'lspconfig'.tsserver.setup {
   -- end,
 }
 
-require 'lspconfig'.eslint.setup {}
+require 'lspconfig'.eslint.setup {
+  format = true,
+  on_attach = function(client, bufnr)
+    vim.api.nvim_create_autocmd("BufWritePre", {
+      buffer = bufnr,
+      command = "EslintFixAll",
+    })
+  end,
+}
 -- require 'lspconfig'.eslint.setup {
 --   format = true,
 --   settings = {

@@ -235,6 +235,7 @@ lvim.plugins = {
   },
   -- lsp addons
   "tpope/vim-surround",
+  "tpope/vim-abolish",
   {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
