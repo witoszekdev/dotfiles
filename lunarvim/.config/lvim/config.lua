@@ -237,6 +237,16 @@ lvim.plugins = {
   "tpope/vim-surround",
   "tpope/vim-abolish",
   {
+    "tpope/vim-dispatch",
+    cmd = { "Dispatch", "Make", "Copen", "Focus", "Start" },
+  },
+  {
+    "stevearc/overseer.nvim",
+    config = function()
+      require("overseer").setup()
+    end
+  },
+  {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
     config = function()
