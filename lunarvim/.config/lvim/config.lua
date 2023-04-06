@@ -1084,6 +1084,12 @@ vim.lsp.handlers["textDocument/definition"] = vim.lsp.with(
   }
 )
 
+vim.filetype.add({
+  extension = {
+    har = "json",
+  }
+})
+
 -- require 'lspconfig'.eslint.setup {}
 -- require 'lspconfig'.tailwindcss.setup {}
 -- local formatters = require "lvim.lsp.null-ls.formatters"
