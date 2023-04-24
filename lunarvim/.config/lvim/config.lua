@@ -7,6 +7,7 @@ lvim.format_on_save = {
   pattern = "*",
   timeout = formatTimeout,
   filter = require("lvim.lsp.handlers").format_filter,
+  async = true
 }
 lvim.builtin.dap.active = true
 
@@ -236,10 +237,7 @@ lvim.plugins = {
   -- lsp addons
   "tpope/vim-surround",
   "tpope/vim-abolish",
-  {
-    "tpope/vim-dispatch",
-    cmd = { "Dispatch", "Make", "Copen", "Focus", "Start" },
-  },
+  "tpope/vim-dispatch",
   {
     "stevearc/overseer.nvim",
     config = function()
@@ -599,6 +597,7 @@ lvim.keys.normal_mode["<leader>qa"] = ":BDelete hidden<CR>"
 lvim.keys.normal_mode["<C-p>"] = ":Telescope find_files<CR>"
 
 lvim.keys.visual_mode["<leader>y"] = '"+y'
+lvim.keys.visual_mode["<leader>s"] = ":lua require('spectre').open_visual()<CR>"
 
 vim.keymap.set('i', '<C-A>', '<Plug>copilot#Accept("<CR>")', { noremap = true })
 
@@ -717,6 +716,7 @@ vim.api.nvim_set_keymap("n", "[h", '', {
   end,
   desc = "Go to previous harpoon file"
 })
+vim.keymap.set("x", "<A-p>", [["_dP]])
 
 lvim.builtin.which_key.mappings["t"] = {
   name = "Tests",
@@ -730,6 +730,22 @@ lvim.builtin.which_key.mappings["t"] = {
   s = { function() require("neotest").summary.toggle() end, "toggle show summary" },
   r = { function() require("neotest").run.run_last() end, "run last test" },
   l = { function() require("neotest").output_panel.toggle() end, "show output panel" },
+  u = { function() require("neotest").run.run({ vitestCommand = "vitest -u ", jestCommand = "jest -u " }) end,
+    "run test + update snapshot" },
+  U = {
+    function() require("neotest").run.run({ vim.fn.expand("%"), vitestCommand = "vitest -u ", jestCommand = "jest -u " }) end,
+    "run file + update snapshot" },
+  w = { function() require("neotest").run.run({ vitestCommand = 'vitest --watch ', jestCommand = 'jest --watch ' }) end,
+    "run nearest + watch" },
+  W = {
+    function()
+      require("neotest").run.run({
+        vim.fn.expand("%"),
+        vitestCommand = 'vitest --watchAll ',
+        jestCommand = 'jest --watchAll '
+      })
+    end,
+    "run file + watch" },
 }
 
 vim.api.nvim_set_keymap("n", "]r", '', {
@@ -773,6 +789,14 @@ lvim.builtin.which_key.mappings["l"]["f"] = {
 }
 
 vim.api.nvim_set_keymap("n", "<Esc>", "<cmd>noh<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<C-=>", "<cmd>vert resize +10<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<C-->", "<cmd>vert resize -10<CR>", { noremap = true })
+vim.api.nvim_set_keymap("v", "<C-f>", "y<ESC>/<c-r>\"<CR>", { noremap = true })            -- search selected text
+vim.api.nvim_set_keymap("v", "<C-r>", "\"hy:%s#<C-r>h##g<left><left>", { noremap = true }) -- replace selected text
+-- copy and paste into telescope
+vim.api.nvim_set_keymap("v", "<C-t>",
+  "\"hy:lua require('telescope.builtin').find_files({ search_file =  vim.fn.expand(\"<c-r>h\")  })<CR>",
+  { noremap = true })
 
 vim.api.nvim_create_user_command("CopyPath", "let @*=expand('%')", {
   nargs = 0, desc = "Copy current file path"
@@ -787,7 +811,7 @@ lvim.builtin.which_key.mappings["bp"] = {
   "<cmd>CopyPath<CR>", "Copy current file path"
 }
 lvim.builtin.which_key.mappings["bP"] = {
-  "<cmd>CopyPathLine<CR>", "Copy current file path + linenm"
+  "<cmd>CopyPathLine<CR>", "Copy current file path + line no"
 }
 
 vim.api.nvim_create_user_command("SetUsLayout", "silent set keymap=''", {
@@ -937,8 +961,10 @@ lvim.builtin.treesitter.incremental_selection = {
 -- telescope
 lvim.builtin.project.active = true
 -- lvim.builtin.notify.active = true
+lvim.builtin.telescope.defaults.layout_strategy = "horizontal"
 lvim.builtin.telescope.extensions.fzf = true
 lvim.builtin.telescope.extensions["ui-select"] = {
+  lvim.builtin.telescope.extensions["ui-select"],
   require("telescope.themes").get_dropdown {}
 }
 lvim.builtin.telescope.extensions.frecency = {
@@ -1122,4 +1148,5 @@ vim.filetype.add({
 --     -- let treesitter use bash highlight for zsh files as well
 --     require("nvim-treesitter.highlight").attach(0, "bash")
 --   end,
+-- })
 -- })
