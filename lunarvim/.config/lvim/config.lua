@@ -558,6 +558,13 @@ lvim.plugins = {
   },
   "SidOfc/mkdx",
   {
+    'echasnovski/mini.nvim',
+    version = false,
+    config = function()
+      require('mini.align').setup()
+    end
+  },
+  {
     "mracos/mermaid.vim",
     ft = { "mermaid" }
   },
@@ -963,10 +970,10 @@ lvim.builtin.project.active = true
 -- lvim.builtin.notify.active = true
 lvim.builtin.telescope.defaults.layout_strategy = "horizontal"
 lvim.builtin.telescope.extensions.fzf = true
-lvim.builtin.telescope.extensions["ui-select"] = {
-  lvim.builtin.telescope.extensions["ui-select"],
-  require("telescope.themes").get_dropdown {}
-}
+-- lvim.builtin.telescope.extensions["ui-select"] = {
+--   lvim.builtin.telescope.extensions["ui-select"],
+--   require("telescope.themes").get_dropdown {}
+-- }
 lvim.builtin.telescope.extensions.frecency = {
   db_root = get_config_dir(),
   show_unindexed = true,
