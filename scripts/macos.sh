@@ -40,7 +40,7 @@ brew install starship
 brew install --cask gpg-suite-no-mail
 
 # Install more recent versions of some macOS tools.
-brew install grep openssh screen gmp git git-lfs gs lua lynx p7zip pigz pv rename rlwrap ssh-copy-id tree vbindiff zopfli node youtube-dl zeromq yarn wp-cli thefuck volta sqlite ripgrep rclone python@3 pyenv pipenv exa fd ffmpeg fx fzf gh jq lsd bat awscli brotli git-delta git-recent git-secrets glow graphviz grex howdoi httpie mcfly nano neovim tfenv tldr watchman
+brew install grep openssh screen gmp git git-lfs gs lua lynx p7zip pigz pv rename rlwrap ssh-copy-id tree vbindiff zopfli youtube-dl zeromq wp-cli thefuck sqlite ripgrep rclone python@3 pyenv pipenv uv exa fd ffmpeg fx fzf gh jq lsd bat awscli brotli git-delta git-recent git-secrets glow graphviz grex howdoi httpie mcfly nano neovim tfenv tldr watchman zoxide direnv jenv proto bob
 #brew install vim --with-override-system-vi
 
 # Install font tools.
@@ -52,7 +52,25 @@ brew install woff2
 # Development tools
 brew install imagemagick
 
-npm install -g n serve
+# Setup proto (version manager)
+proto setup --yes
+
+# Install Node.js and package managers via proto
+# Get latest LTS version for Node.js (even major versions like 20, 22, etc.)
+NODE_LTS=$(proto versions node --json | jq -r '.[0]' | awk -F. '{if ($1 % 2 == 0) print $0; else exit 1}' || proto versions node --json | jq -r '.[1]')
+
+proto install node@${NODE_LTS}
+proto install pnpm  # Installs latest automatically
+proto install yarn  # Installs latest automatically
+proto pin node --global ${NODE_LTS}
+proto pin pnpm --global
+proto pin yarn --global
+
+# Install global npm packages
+pnpm install -g serve
+
+# Install Poetry (Python dependency manager) via official installer
+curl -sSL https://install.python-poetry.org | python3 -
 
 # Remove outdated versions from the cellar.
 brew cleanup

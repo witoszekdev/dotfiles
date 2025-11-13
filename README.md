@@ -13,6 +13,7 @@ My dotfiles
 - `scripts` - scripts stored in main use directory
     - `switch-gpu` - switching between integrated and discrete GPU on MacBooks that has a AMD graphics card
     - `macos.sh` - to be replaced with something better
+    - `git-worktree-create.py` - creates git worktree with dependencies installed (alias: `gwtc`)
 
 ## How to install
 

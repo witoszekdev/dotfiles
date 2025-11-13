@@ -85,18 +85,16 @@ plugins=(
   macos
   zsh-autosuggestions
   alias-tips
+  poetry
 )
 
 source $ZSH/oh-my-zsh.sh
 
-# Aliases
-
-source ~/.zsh_aliases
 
 # User configuration
 
 # Load CLI utils configuration
-source ~/.config/zsh_global/index.zsh
+# source ~/.config/zsh_global/index.zsh
 
 # History file, required for some plugins
 export HISTFILE=~/.zsh_history
@@ -134,8 +132,6 @@ export LC_CTYPE="en_US.UTF-8"
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-export VOLTA_HOME="$HOME/.volta"
-export PATH="$VOLTA_HOME/bin:$PATH"
 eval "$(starship init zsh)"
 
 eval $(thefuck --alias)
@@ -146,12 +142,6 @@ export PATH="/usr/local/opt/openjdk/bin:$PATH"
 # Change lang of git to English
 alias git='LANG=en_GB git'
 
-# Use NeoVim as vim
-#alias vim='nvim'
-alias vim='lvim --listen /tmp/nvimsocket'
-alias vimrc='vim ~/.config/nvim/init.vim'
-alias v='vim --listen /tmp/nvimsocket'
-export NVR_CMD="lvim"
 
 # Make Python3.9 the default
 # Make sure to install python in this version - brew install python3.9
@@ -179,10 +169,37 @@ eval "$(direnv hook zsh)"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# pnpm
-export PNPM_HOME="/Users/jonatanwitoszek/Library/pnpm"
-export PATH="$PNPM_HOME:$PATH"
-# pnpm endexport PATH="/usr/local/opt/openjdk/bin:$PATH"
+export PATH="/usr/local/opt/openjdk/bin:$PATH"
 
 # color theme
 export COLORSCHEME="dark" # dark | light
+
+# proto - version manager for Node.js, pnpm, yarn, etc.
+export PROTO_HOME="$HOME/.proto"
+export PATH="$PROTO_HOME/shims:$PROTO_HOME/bin:$PATH"
+
+# bob
+export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
+
+# pyenv
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
+# gpg
+export GPG_TTY="$(tty)"
+export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+gpgconf --launch gpg-agent
+
+# jenv
+eval "$(jenv init -)"
+export PATH="$HOME/.jenv/shims:$PATH"
+export PATH="/opt/homebrew/opt/openjdk@11/bin:$PATH"
+
+# Aliases - MUST BE LOADED LAST
+
+source ~/.zsh_aliases
+
+if command -v ngrok &>/dev/null; then
+  eval "$(ngrok completion)"
+fi

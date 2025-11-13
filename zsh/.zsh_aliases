@@ -30,11 +30,16 @@ alias cat='bat'
 # zoxide
 alias z='zoxide'
 
-# open vim as server
-alias svim='nvim --listen /tmp/nvimsocket'
-
 # kitty ssh
 alias s="kitty +kitten ssh"
+
+# Use NeoVim as vim
+alias vim='nvim --listen /tmp/nvimsocket'
+# alias vim='lvim --listen /tmp/nvimsocket'
+# alias vim='lvim'
+alias vimrc='vim ~/.config/nvim/init.vim'
+alias v='vim --listen /tmp/nvimsocket'
+export NVR_CMD="nvim"
 
 # projects browser
 projects() {
@@ -48,55 +53,44 @@ projects() {
 }
 alias p='projects'
 
+worktrees() {
+  cd ~/worktrees
+
+  # First, select project
+  selected_project=$(find . -mindepth 1 -maxdepth 1 -type d | sed 's|^\./||' | sort | fzf --prompt "Select project: " --preview 'ls -la ~/worktrees/{}')
+
+  if [ -z "$selected_project" ]; then
+    return
+  fi
+
+  # Then, select worktree within that project
+  selected_worktree=$(find "$selected_project" -mindepth 1 -maxdepth 1 -type d | sed "s|^$selected_project/||" | sort | fzf --prompt "Select worktree in $selected_project: " --preview "ls -la ~/worktrees/$selected_project/{}")
+
+  if [ -n "$selected_worktree" ]; then
+    cd "$selected_project/$selected_worktree"
+  fi
+}
+alias w='worktrees'
+
+# Simple worktree search (single step)
+worktrees_simple() {
+  cd ~/worktrees
+
+  # Find all worktrees in ~/worktrees/<project>/<worktree> structure
+  # Format as "project/worktree" for better visibility
+  selected_folder=$(find . -mindepth 2 -maxdepth 2 -type d -not -path "*/node_modules/*" | sed 's|^\./||' | sort | fzf --delimiter '/' --with-nth 1,2 --preview 'ls -la ~/worktrees/{} 2>/dev/null')
+
+  if [ -n "$selected_folder" ]; then
+    cd "$selected_folder"
+  fi
+}
+alias ww='worktrees_simple'
+
 # copilot shell completion
-copilot_what-the-shell () {
-    TMPFILE=$(mktemp);
-    trap 'rm -f $TMPFILE' EXIT;
-    if /Users/jonatanwitoszek/Library/pnpm/global/5/node_modules/@githubnext/github-copilot-cli/cli.js what-the-shell "$@" --shellout $TMPFILE; then
-      if [ -e "$TMPFILE" ]; then
-        FIXED_CMD=$(cat $TMPFILE);
-        
-        eval "$FIXED_CMD"
-      else
-        echo "Apologies! Extracting command failed"
-      fi
-    else
-      return 1
-    fi
-  };
-alias '??'='copilot_what-the-shell';
+eval "$(gh copilot alias -- zsh)"
 
-  copilot_git-assist () {
-    TMPFILE=$(mktemp);
-    trap 'rm -f $TMPFILE' EXIT;
-    if /Users/jonatanwitoszek/Library/pnpm/global/5/node_modules/@githubnext/github-copilot-cli/cli.js git-assist "$@" --shellout $TMPFILE; then
-      if [ -e "$TMPFILE" ]; then
-        FIXED_CMD=$(cat $TMPFILE);
-        
-        eval "$FIXED_CMD"
-      else
-        echo "Apologies! Extracting command failed"
-      fi
-    else
-      return 1
-    fi
-  };
-alias 'git?'='copilot_git-assist';
+# running jest
+alias jb='./node_modules/.bin/jest'
 
-  copilot_gh-assist () {
-    TMPFILE=$(mktemp);
-    trap 'rm -f $TMPFILE' EXIT;
-    if /Users/jonatanwitoszek/Library/pnpm/global/5/node_modules/@githubnext/github-copilot-cli/cli.js gh-assist "$@" --shellout $TMPFILE; then
-      if [ -e "$TMPFILE" ]; then
-        FIXED_CMD=$(cat $TMPFILE);
-        
-        eval "$FIXED_CMD"
-      else
-        echo "Apologies! Extracting command failed"
-      fi
-    else
-      return 1
-    fi
-  };
-alias 'gh?'='copilot_gh-assist';
-alias 'wts'='copilot_what-the-shell';
+# git worktree create
+alias gwtc='python3 ~/dotfiles/scripts/git-worktree-create.py'
