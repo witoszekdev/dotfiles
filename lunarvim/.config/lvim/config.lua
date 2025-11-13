@@ -6,15 +6,15 @@ lvim.format_on_save = {
   enabled = true,
   pattern = "*",
   timeout = formatTimeout,
-  filter = require("lvim.lsp.handlers").format_filter,
+  -- filter = require("lvim.lsp.handlers").format_filter,
   async = true
 }
 lvim.builtin.dap.active = true
 
 lvim.colorscheme = "gruvbox"
 vim.opt.background = "dark"
-vim.g.gruvbox_contrast_dark = "hard"
-vim.g.gruvbox_contrast_light = "hard"
+-- vim.g.gruvbox_contrast_dark = "hard"
+-- vim.g.gruvbox_contrast_light = "hard"
 vim.opt.clipboard = ""
 vim.opt.mouse = "n"
 vim.opt.splitbelow = false
@@ -43,7 +43,13 @@ lvim.plugins = {
         undercurl = true,
         underline = true,
         bold = true,
-        italic = true,
+        italic = {
+          strings = true,
+          emphasis = true,
+          comments = true,
+          operators = false,
+          folds = true,
+        },
         strikethrough = true,
         invert_selection = false,
         invert_signs = false,

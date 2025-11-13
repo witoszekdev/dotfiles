@@ -44,11 +44,12 @@ def set_interface_style(dark: bool):
     subprocess.run(
         ["kitty", "+kitten", "themes", "--reload-in=all", KITTY_THEMES[theme]]
     )
-    subprocess.run(["nvr", "-c", f"let colorscheme='{theme}'"])
-    subprocess.run(["nvr", "-c", 'lua require("lvim.config"):reload()'])
+    # subprocess.run(["nvr", "-c", f"let colorscheme='{theme}'"])
+    # subprocess.run(["nvr", "-c", 'lua require("lvim.config"):reload()'])
 
     assert result.returncode == 0, result
 
 
 if __name__ == "__main__":
+    # set_interface_style(False)
     set_interface_style(not is_dark_mode())
