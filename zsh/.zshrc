@@ -177,6 +177,7 @@ export COLORSCHEME="dark" # dark | light
 # proto - version manager for Node.js, pnpm, yarn, etc.
 export PROTO_HOME="$HOME/.proto"
 export PATH="$PROTO_HOME/shims:$PROTO_HOME/bin:$PATH"
+export PATH="$PROTO_HOME/tools/node/globals/bin:$PATH"
 
 # bob
 export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
