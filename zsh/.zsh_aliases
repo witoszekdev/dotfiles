@@ -34,11 +34,10 @@ alias z='zoxide'
 alias s="kitty +kitten ssh"
 
 # Use NeoVim as vim
-alias vim='nvim --listen /tmp/nvimsocket'
+alias vim='nvim'
 # alias vim='lvim --listen /tmp/nvimsocket'
 # alias vim='lvim'
-alias vimrc='vim ~/.config/nvim/init.vim'
-alias v='vim --listen /tmp/nvimsocket'
+alias v='vim'
 export NVR_CMD="nvim"
 
 # projects browser
@@ -85,9 +84,6 @@ worktrees_simple() {
   fi
 }
 alias ww='worktrees_simple'
-
-# copilot shell completion
-eval "$(gh copilot alias -- zsh)"
 
 # running jest
 alias jb='./node_modules/.bin/jest'
