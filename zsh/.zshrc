@@ -154,7 +154,8 @@ export PATH="/usr/local/opt/coreutils/libexec/gnubin:${PATH}"
 export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:${MANPATH}"
 
 # Go
-export GOPATH=/usr/local/bin
+export GOPATH="$HOME/go"
+export PATH="$GOPATH/bin:$PATH"
 
 eval "$(direnv hook zsh)"
 
@@ -167,7 +168,7 @@ eval "$(direnv hook zsh)"
 #zle     -N     fzf-history-widget-accept
 #bindkey '^X^R' fzf-history-widget-accept
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+source <(fzf --zsh)
 
 export PATH="/usr/local/opt/openjdk/bin:$PATH"
 
@@ -204,3 +205,21 @@ source ~/.zsh_aliases
 if command -v ngrok &>/dev/null; then
   eval "$(ngrok completion)"
 fi
+
+# pnpm
+export PNPM_HOME="/Users/jonatanwitoszek/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+
+export PATH="$HOME/.bun/bin:$PATH"
+
+# Claude Code: resolve op:// refs in ~/.claude/secrets.env via 1Password CLI,
+# inject into child claude process only. Needs desktop CLI integration enabled.
+alias claude='op --account my.1password.eu run --no-masking --env-file="$HOME/.claude/secrets.env" -- claude'
+
+
+# npm global prefix (shared across proto-managed node versions)
+export PATH="$HOME/.npm-global/bin:$PATH"
