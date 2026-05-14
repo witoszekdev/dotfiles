@@ -28,7 +28,7 @@
 	difftool = true
 [init]
 	defaultBranch = main
-	templateDir = ~/.git-templates/git-secrets
+	; templateDir = ~/.git-templates/git-secrets
 [alias]
 	hs = log --pretty='%C(yellow)%h %C(cyan)%cd %Cblue%aN%C(auto)%d %Creset%s' --graph --date=relative --date-order
 	dft = difftool
@@ -36,17 +36,12 @@
 	ss = "git stash -- $(git diff --staged --name-only)" # stash staged
 [merge]
 	# conflictStyle = diff3
-	tool = webstorm
 [diff]
     ;tool = kitty
     tool = difftastic
     guitool = kitty.gui
 [mergetool]
 	keepBackup = false
-[mergetool "webstorm"]
-  cmd = webstorm merge \"$LOCAL\" \"$REMOTE\" \"$BASE\" \"$MERGED\" && read
-[difftool "webstorm"]
-	cmd = webstorm diff \"$LOCAL\" \"$REMOTE\" && read
 [difftool "kitty"]
     cmd = kitty +kitten diff $LOCAL $REMOTE
 [difftool "kitty.gui"]
@@ -58,13 +53,13 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
-[secrets]
-	providers = git secrets --aws-provider
-	patterns = (A3T[A-Z0-9]|AKIA|AGPA|AIDA|AROA|AIPA|ANPA|ANVA|ASIA)[A-Z0-9]{16}
-	patterns = (\"|')?(AWS|aws|Aws)?_?(SECRET|secret|Secret)?_?(ACCESS|access|Access)?_?(KEY|key|Key)(\"|')?\\s*(:|=>|=)\\s*(\"|')?[A-Za-z0-9/\\+=]{40}(\"|')?
-	patterns = (\"|')?(AWS|aws|Aws)?_?(ACCOUNT|account|Account)_?(ID|id|Id)?(\"|')?\\s*(:|=>|=)\\s*(\"|')?[0-9]{4}\\-?[0-9]{4}\\-?[0-9]{4}(\"|')?
-	allowed = AKIAIOSFODNN7EXAMPLE
-	allowed = wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+; [secrets]
+; 	providers = git secrets --aws-provider
+; 	patterns = (A3T[A-Z0-9]|AKIA|AGPA|AIDA|AROA|AIPA|ANPA|ANVA|ASIA)[A-Z0-9]{16}
+; 	patterns = (\"|')?(AWS|aws|Aws)?_?(SECRET|secret|Secret)?_?(ACCESS|access|Access)?_?(KEY|key|Key)(\"|')?\\s*(:|=>|=)\\s*(\"|')?[A-Za-z0-9/\\+=]{40}(\"|')?
+; 	patterns = (\"|')?(AWS|aws|Aws)?_?(ACCOUNT|account|Account)_?(ID|id|Id)?(\"|')?\\s*(:|=>|=)\\s*(\"|')?[0-9]{4}\\-?[0-9]{4}\\-?[0-9]{4}(\"|')?
+; 	allowed = AKIAIOSFODNN7EXAMPLE
+; 	allowed = wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
 [pull]
 	default = current
 	rebase = true
@@ -77,3 +72,9 @@
 	autoSetupMerge = always
 [fetch]
 	prune = true
+[credential "https://github.com"]
+	helper = 
+	helper = !/opt/homebrew/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/opt/homebrew/bin/gh auth git-credential
